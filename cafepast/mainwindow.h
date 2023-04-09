@@ -3,8 +3,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTranslator>
 
 
+#include <QAction>
+#include <QMenu>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,6 +24,22 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+
+
+
+    void initAction();
+
+    std::unique_ptr<QMenu> mUrunMenu;
+    std::unique_ptr<QAction> mYeniUrunAction;
+    std::unique_ptr<QAction> mUrunUpdateAction;
+
+
+    std::unique_ptr<QMenu> mAyarlarMenu;
+
+    QTranslator mEnglishTranslator;
+    QTranslator mMakedonTranslator;
+
 };
 
 #endif // MAINWINDOW_H
