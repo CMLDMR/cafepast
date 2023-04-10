@@ -9,6 +9,9 @@
 #include <QAction>
 #include <QMenu>
 
+#include <QTabWidget>
+#include <QHBoxLayout>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -33,12 +36,20 @@ private:
     std::unique_ptr<QMenu> mUrunMenu;
     std::unique_ptr<QAction> mYeniUrunAction;
     std::unique_ptr<QAction> mUrunUpdateAction;
+    std::unique_ptr<QAction> mKategoriManagerList;
 
 
     std::unique_ptr<QMenu> mAyarlarMenu;
+    std::unique_ptr<QAction> mParaBirimiAction;
+    std::unique_ptr<QAction> mDilSecimiAction;
 
     QTranslator mEnglishTranslator;
     QTranslator mMakedonTranslator;
+
+
+    void initWidget();
+    std::unique_ptr<QTabWidget> mTabWidget;
+    std::unique_ptr<QHBoxLayout> mCentralWidgetLayout;
 
 };
 

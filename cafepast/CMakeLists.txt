@@ -16,6 +16,10 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
 qt_add_resources(RESOURCES resource.qrc)
 
+file(GLOB_RECURSE HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+file(GLOB_RECURSE SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+file(GLOB_RECURSE UIFILES ${CMAKE_CURRENT_SOURCE_DIR}/*.ui)
+
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
@@ -26,7 +30,9 @@ set(PROJECT_SOURCES
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(cafepast
         MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
+        ${HEADERS}
+        ${SOURCES}
+        ${UIFILES}
         ${QM_FILES}
         ${RESOURCES}
     )
