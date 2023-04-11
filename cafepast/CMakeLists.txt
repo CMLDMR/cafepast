@@ -6,8 +6,14 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zc:__cplusplus")
+
+
+set(bsoncxx_DIR D:/project/Cafe/mongocore/lib/cmake/bsoncxx-3.7.0)
+set(mongocxx_DIR D:/project/Cafe/mongocore/lib/cmake/mongocxx-3.7.0)
+
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
@@ -55,6 +61,19 @@ else()
 endif()
 
 target_link_libraries(cafepast PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+
+target_include_directories(cafepast PUBLIC "D:/project/Cafe/mongocore/include")
+target_link_directories(cafepast PUBLIC "D:/project/Cafe/mongocore/lib")
+target_link_libraries(cafepast PRIVATE MongoCore)
+
+
+find_package(mongocxx REQUIRED)
+find_package(bsoncxx REQUIRED)
+include_directories(${LIBMONGOCXX_INCLUDE_DIR})
+include_directories(${LIBBSONCXX_INCLUDE_DIR})
+
+target_link_libraries(cafepast PRIVATE mongo::bsoncxx_shared)
+target_link_libraries(cafepast PRIVATE mongo::mongocxx_shared)
 
 set_target_properties(cafepast PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
