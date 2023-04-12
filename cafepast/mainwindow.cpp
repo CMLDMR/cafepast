@@ -13,9 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-
-
-
     this->initAction();
 
     this->initWidget();
@@ -46,9 +43,9 @@ void MainWindow::initAction()
     mKategoriManagerList = std::make_unique<QAction>("Kategori Yönetimi");
     mUrunMenu->addAction(mKategoriManagerList.get());
     QObject::connect(mKategoriManagerList.get(),&QAction::triggered,[=](const bool triggered){
-        auto mkategoriManager = std::make_unique<Kategori::KategoriManagerWidget>();
-        qDebug() << triggered;
-        mkategoriManager.get()->exec();
+        auto mkategoriManager = new Kategori::KategoriManagerWidget();
+        mkategoriManager->exec();
+        delete mkategoriManager;
     });
 
 

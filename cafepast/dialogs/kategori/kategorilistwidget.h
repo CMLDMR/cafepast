@@ -18,12 +18,16 @@ class KategoriListWidget : public QWidget
     Q_OBJECT
 public:
     explicit KategoriListWidget(QWidget *parent = nullptr);
+    virtual ~KategoriListWidget();
 
     void setList( const std::vector<Cafe::Kategori::KategoriItem> &mList);
 
 
+    KategoriListModel*kategoriModel() const;
+
 signals:
     void addNewKategoriBtn();
+    void changeKategoriName( const QString &);
 
 
 
@@ -39,6 +43,7 @@ private:
 
     std::unique_ptr<QHBoxLayout> mControlLayout;
     std::unique_ptr<QPushButton> mYeniEkleSlideButton;
+    QPushButton* mAdiniDegistirBtn;
 
 };
 

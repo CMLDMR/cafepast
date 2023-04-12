@@ -36,6 +36,11 @@ YeniEkleWidget::YeniEkleWidget(QWidget *parent)
     QObject::connect(mIptalBtn.get(),&QPushButton::clicked,this,&YeniEkleWidget::iptalClicked);
 }
 
+void YeniEkleWidget::setCurrentKategoriName(const QString &currentKategoriName)
+{
+    this->mKategoriAdiLineEdit->setText(currentKategoriName);
+}
+
 
 
 } // namespace Kategori

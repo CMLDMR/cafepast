@@ -22,23 +22,27 @@ namespace Kategori{
 
 
 
-class KategoriManagerWidget : public QDialog, public Cafe::Kategori::KategoriManager
+class KategoriManagerWidget : public QDialog
 {
     Q_OBJECT
 public:
     KategoriManagerWidget();
+    virtual ~KategoriManagerWidget(){
+        mStackedWidget.get()->removeWidget(mKategorListView);
+        delete mKategorListView;
+        delete mYeniEkleWidget;
 
+    }
 
-    virtual void onList( const std::vector<Cafe::Kategori::KategoriItem> &mList ) override;
 
 private:
 
     std::unique_ptr<QVBoxLayout> mLayout;
 
-    std::unique_ptr<KategoriListWidget> mKategorListView;
+    KategoriListWidget* mKategorListView;
     std::unique_ptr<SlidingStackedWidget> mStackedWidget;
 
-    std::unique_ptr<YeniEkleWidget> mYeniEkleWidget;
+    YeniEkleWidget* mYeniEkleWidget;
 };
 
 
