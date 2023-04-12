@@ -11,6 +11,7 @@
 
 #include <QTabWidget>
 #include <QHBoxLayout>
+#include "global/globalVar.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,7 +29,8 @@ public:
 private:
     Ui::MainWindow *ui;
 
-
+    mongocxx::client* mClient;
+    mongocxx::database m_db;
 
 
     void initAction();

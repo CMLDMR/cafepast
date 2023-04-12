@@ -14,6 +14,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zc:__cplusplus")
 set(bsoncxx_DIR D:/project/Cafe/mongocore/lib/cmake/bsoncxx-3.7.0)
 set(mongocxx_DIR D:/project/Cafe/mongocore/lib/cmake/mongocxx-3.7.0)
 
+include_directories("${CMAKE_SOURCE_DIR}")
+
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
