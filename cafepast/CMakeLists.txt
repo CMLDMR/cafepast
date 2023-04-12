@@ -11,8 +11,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zc:__cplusplus")
 
 
-set(bsoncxx_DIR D:/project/Cafe/mongocore/lib/cmake/bsoncxx-3.7.0)
-set(mongocxx_DIR D:/project/Cafe/mongocore/lib/cmake/mongocxx-3.7.0)
+set(bsoncxx_DIR ../../mongocore/lib/cmake/bsoncxx-3.7.0)
+set(mongocxx_DIR ../..//mongocore/lib/cmake/mongocxx-3.7.0)
 
 include_directories("${CMAKE_SOURCE_DIR}")
 
@@ -64,8 +64,8 @@ endif()
 
 target_link_libraries(cafepast PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
-target_include_directories(cafepast PUBLIC "D:/project/Cafe/mongocore/include")
-target_link_directories(cafepast PUBLIC "D:/project/Cafe/mongocore/lib")
+target_include_directories(cafepast PUBLIC "../../mongocore/include")
+target_link_directories(cafepast PUBLIC "../../mongocore/lib")
 target_link_libraries(cafepast PRIVATE MongoCore)
 
 

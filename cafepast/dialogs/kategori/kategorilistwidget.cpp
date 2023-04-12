@@ -16,6 +16,12 @@ KategoriListWidget::KategoriListWidget(QWidget *parent)
 
 
     mListView = std::make_unique<QListView>();
+
+    mListView.get()->setViewMode(QListView::ViewMode::ListMode);
+    mListView.get()->setResizeMode(QListView::ResizeMode::Adjust);
+
+
+
     mLayout->addWidget(mListView.get());
 
 
@@ -29,17 +35,41 @@ KategoriListWidget::KategoriListWidget(QWidget *parent)
 
     mYeniEkleSlideButton = std::make_unique<QPushButton>("Yeni Ekle");
     mControlLayout->addWidget(mYeniEkleSlideButton.get());
+
     mControlLayout->addWidget(new QPushButton("Seçili Olanı Sil"));
 
     QObject::connect(mYeniEkleSlideButton.get(),&QPushButton::clicked,[=](){
         emit this->addNewKategoriBtn();
     });
 
+    mAdiniDegistirBtn = new QPushButton("Değiştir");
+    mControlLayout->addWidget(mAdiniDegistirBtn);
+
+    QObject::connect(mAdiniDegistirBtn,&QPushButton::clicked,[=](){
+
+        if( mListView.get()->currentIndex().row() < 0 ){
+            qDebug() << "Error No Model Item Selected";
+        }else{
+            emit this->changeKategoriName(mListView.get()->currentIndex().data(Qt::DisplayRole).toString());
+        }
+
+    });
+
+}
+
+KategoriListWidget::~KategoriListWidget()
+{
+    delete mAdiniDegistirBtn;
 }
 
 void KategoriListWidget::setList(const std::vector<Cafe::Kategori::KategoriItem> &mList)
 {
     mKategoriModel.get()->setList(mList);
+}
+
+KategoriListModel*KategoriListWidget::kategoriModel() const
+{
+    return mKategoriModel.get();
 }
 
 

@@ -14,32 +14,38 @@ Kategori::KategoriManagerWidget::KategoriManagerWidget()
 
 
 
-    mKategorListView = std::make_unique<KategoriListWidget>();
-    mStackedWidget->addWidget(mKategorListView.get());
+    mKategorListView = new KategoriListWidget(this);
+    mStackedWidget->addWidget(mKategorListView);
 
-    QObject::connect(mKategorListView.get(),&KategoriListWidget::addNewKategoriBtn,[=](){
+
+
+
+
+    mYeniEkleWidget = new YeniEkleWidget(this);
+    mStackedWidget->addWidget(mYeniEkleWidget);
+
+    QObject::connect(mKategorListView,&KategoriListWidget::addNewKategoriBtn,[=](){
+        mYeniEkleWidget->setCurrentKategoriName("");
+        mStackedWidget.get()->slideInIdx(1);
+    });
+
+    QObject::connect(mKategorListView,&KategoriListWidget::changeKategoriName,[=](const QString &currentName){
+        mYeniEkleWidget->setCurrentKategoriName(currentName);
         mStackedWidget.get()->slideInIdx(1);
     });
 
 
-
-
-
-
-
-    mYeniEkleWidget = std::make_unique<YeniEkleWidget>();
-    mStackedWidget->addWidget(mYeniEkleWidget.get());
-
-    QObject::connect(mYeniEkleWidget.get(),&YeniEkleWidget::iptalClicked,[=](){
+    QObject::connect(mYeniEkleWidget,&YeniEkleWidget::iptalClicked,[=](){
+        mYeniEkleWidget->setCurrentKategoriName("");
         mStackedWidget->slideInIdx(0);
     });
 
-    QObject::connect(mYeniEkleWidget.get(),&YeniEkleWidget::yeniClicked,[=](const QString& newKategoriName){
+    QObject::connect(mYeniEkleWidget,&YeniEkleWidget::yeniClicked,[=](const QString& newKategoriName){
         Cafe::Kategori::KategoriItem item;
         item.setName(newKategoriName.toStdString());
-        auto ins = this->InsertItem(item);
+        auto ins = mKategorListView->kategoriModel()->InsertItem(item);
         if( ins.size() ){
-            this->UpdateList();
+            mKategorListView->kategoriModel()->UpdateList();
         }
         mStackedWidget->slideInIdx(0);
     });
@@ -47,18 +53,15 @@ Kategori::KategoriManagerWidget::KategoriManagerWidget()
     this->setMinimumWidth(450);
     this->setMinimumHeight(350);
 
-    this->setLimit(100);
-    this->UpdateList();
+//    this->setLimit(100);
+//    this->UpdateList();
 
 
 }
 
-void Kategori::KategoriManagerWidget::onList(const std::vector<Cafe::Kategori::KategoriItem> &mList)
-{
-    mKategorListView->setList(mList);
-    for( const auto &item : mList ){
-        qDebug() << bsoncxx::to_json(item.view()).c_str();
-    }
-}
+//void Kategori::KategoriManagerWidget::onList(const std::vector<Cafe::Kategori::KategoriItem> &mList)
+//{
+//    mKategorListView->setList(mList);
+//}
 
 

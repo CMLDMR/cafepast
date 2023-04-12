@@ -18,6 +18,8 @@ class YeniEkleWidget : public QWidget
 public:
     explicit YeniEkleWidget(QWidget *parent = nullptr);
 
+
+    void setCurrentKategoriName( const QString &currentKategoriName );
 signals:
 
     void iptalClicked();

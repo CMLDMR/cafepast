@@ -10,7 +10,7 @@
 
 namespace Kategori {
 
-class KategoriListModel : public QAbstractListModel
+class KategoriListModel : public QAbstractListModel, public Cafe::Kategori::KategoriManager
 {
 public:
     explicit KategoriListModel(QObject *parent = nullptr);
@@ -21,6 +21,10 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const override;
 
     void setList(const std::vector<Cafe::Kategori::KategoriItem> &newList);
+
+    virtual void onList( const std::vector<Cafe::Kategori::KategoriItem> &mList ) override;
+
+    void updateKategoriList();
 
 private:
     std::vector<Cafe::Kategori::KategoriItem> mList;

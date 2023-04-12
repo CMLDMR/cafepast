@@ -7,6 +7,10 @@ KategoriListModel::KategoriListModel(QObject *parent)
     : QAbstractListModel{parent}
 {
 
+    this->setLimit(1000);
+
+    this->UpdateList();
+
 }
 
 
@@ -36,6 +40,19 @@ void KategoriListModel::setList(const std::vector<Cafe::Kategori::KategoriItem> 
     beginResetModel();
     mList = newList;
     endResetModel();
+}
+
+void KategoriListModel::onList(const std::vector<Cafe::Kategori::KategoriItem> &mList)
+{
+    beginResetModel();
+    this->mList = mList;
+    endResetModel();
+
+}
+
+void KategoriListModel::updateKategoriList()
+{
+    this->UpdateList();
 }
 
 } // namespace Kategori
