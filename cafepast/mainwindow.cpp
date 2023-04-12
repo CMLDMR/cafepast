@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
+#include "mongocxx/client.hpp"
 #include "tabWidgets/poahacawidget.h"
 #include "dialogs/kategorimanagerwidget.h"
 
@@ -13,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
 
+
+
     this->initAction();
 
     this->initWidget();
@@ -20,7 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
     if( mEnglishTranslator.load(":/language_en") ){
         qApp->installTranslator(&mEnglishTranslator);
     }
-
 }
 
 MainWindow::~MainWindow()

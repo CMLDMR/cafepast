@@ -11,6 +11,10 @@ int main(int argc, char *argv[])
 
     mongocxx::instance ins{};
 
+
+
+
+
     MainWindow w;
     w.show();
     return a.exec();
