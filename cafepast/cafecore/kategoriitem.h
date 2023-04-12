@@ -11,6 +11,7 @@ namespace Kategori{
 
 namespace Key {
 inline const std::string_view Collection{"Kategoriler"};
+inline const std::string_view kategoriName{"KategoriAdi"};
 
 
 }
@@ -19,6 +20,12 @@ class KategoriItem : public MongoCore::Item
 {
 public:
     KategoriItem();
+
+    KategoriItem &setName( const std::string &kategoriName);
+
+    std::string getKategoriName() const;
+
+    KategoriItem &operator=( const KategoriItem &other);
 };
 
 
