@@ -12,19 +12,19 @@ DeleteWidget::DeleteWidget(QWidget *parent)
     : QWidget{parent}
 {
 
-    mMainLayout = new QVBoxLayout(this);
-//    this->setLayout(mMainLayout);
+    mMainLayout = new QVBoxLayout();
+    this->setLayout(mMainLayout);
 
-    mTitle = new QLabel(this);
+    mTitle = new QLabel();
     mTitle->setText("Silmek İstediğinize Emin misiniz?");
     mMainLayout->addWidget(mTitle);
     mMainLayout->addStretch(1);
 
-    mKategoriName = new QLabel(this);
+    mKategoriName = new QLabel();
     mKategoriName->setText("Kategori Adı");
         mMainLayout->addWidget(mKategoriName);
 
-    mKategoriOid = new QLabel(this);
+    mKategoriOid = new QLabel();
         mKategoriOid->setText("Oid");
     mMainLayout->addWidget(mKategoriOid);
 
@@ -33,26 +33,30 @@ DeleteWidget::DeleteWidget(QWidget *parent)
 
 
     mControlLayout = new QHBoxLayout();
+    mMainLayout->addLayout(mControlLayout);
+
     mDelBtn = new QPushButton("Evet");
     mControlLayout->addWidget(mDelBtn);
 
     mIptalBtn = new QPushButton("Hayır");
     mControlLayout->addWidget(mIptalBtn);
 
-    mMainLayout->addLayout(mControlLayout);
-
 
 }
 
 DeleteWidget::~DeleteWidget()
 {
-    delete mMainLayout; mMainLayout = nullptr;
+
     delete mTitle;  mTitle = nullptr;
     delete mKategoriName; mKategoriName = nullptr;
     delete mKategoriOid; mKategoriOid = nullptr;
-    delete mControlLayout; mControlLayout = nullptr;
+
     delete mDelBtn; mDelBtn = nullptr;
     delete mIptalBtn; mIptalBtn = nullptr;
+    delete mControlLayout; mControlLayout = nullptr;
+
+    delete mMainLayout; mMainLayout = nullptr;
+
 }
 
 QPushButton *DeleteWidget::iptalBtn() const
@@ -68,6 +72,12 @@ QPushButton *DeleteWidget::delBtn() const
 QLabel *DeleteWidget::kategoriOid() const
 {
     return mKategoriOid;
+}
+
+void DeleteWidget::setKategoriNameOid(const QString &kategoriName, const QString &kategoriOid)
+{
+    this->mKategoriName->setText(kategoriName);
+    this->mKategoriOid->setText(kategoriOid);
 }
 
 } // namespace Kategori

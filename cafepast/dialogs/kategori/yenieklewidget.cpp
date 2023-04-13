@@ -16,7 +16,8 @@ YeniEkleWidget::YeniEkleWidget(QWidget *parent)
     this->setLayout(mLayout.get());
 
 
-    mLayout->addWidget(new QLabel("Yeni Ekle"));
+    mTitle = new QLabel("Yeni Ekle");
+    mLayout->addWidget(mTitle);
 
 
     mKategoriAdiLineEdit = std::make_unique<QLineEdit>();
@@ -28,8 +29,12 @@ YeniEkleWidget::YeniEkleWidget(QWidget *parent)
     mEkleBtn = std::make_unique<QPushButton>("Ekle+");
     mLayout->addWidget(mEkleBtn.get());
     QObject::connect(mEkleBtn.get(),&QPushButton::clicked,[=](){
-        mEkleBtn->setText("Ekle+");
-        emit yeniClicked(this->mKategoriAdiLineEdit->text());
+        if( mEkleBtn->text() == "Değiştir" ){
+            mEkleBtn->setText("Ekle+");
+            emit degisClicked(this->mKategoriAdiLineEdit->text(),mKategoriOid);
+        }else{
+            emit yeniClicked(this->mKategoriAdiLineEdit->text());
+        }
     });
 
     mIptalBtn = std::make_unique<QPushButton>("İptal");
@@ -44,15 +49,20 @@ YeniEkleWidget::YeniEkleWidget(QWidget *parent)
 
 }
 
-void YeniEkleWidget::setCurrentKategoriName(const QString &currentKategoriName)
+void YeniEkleWidget::setCurrentKategoriName(const QString &currentKategoriName, const QString &kategoriOid )
 {
+    mKategoriOid = kategoriOid;
     this->mKategoriAdiLineEdit->setText(currentKategoriName);
-    qDebug() << currentKategoriName;
     if( currentKategoriName.isEmpty() ){
         mEkleBtn->setText("Ekle+");
     }else{
         mEkleBtn->setText("Değiştir");
     }
+}
+
+QLabel *YeniEkleWidget::title() const
+{
+return mTitle;
 }
 
 

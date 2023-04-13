@@ -26,6 +26,8 @@ public:
 
     QLabel *kategoriOid() const;
 
+    void setKategoriNameOid( const QString &kategoriName , const QString &kategoriOid );
+
 signals:
 
 

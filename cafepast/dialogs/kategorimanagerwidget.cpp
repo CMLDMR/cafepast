@@ -26,11 +26,13 @@ Kategori::KategoriManagerWidget::KategoriManagerWidget()
 
     QObject::connect(mKategorListView,&KategoriListWidget::addNewKategoriBtn,[=](){
         mYeniEkleWidget->setCurrentKategoriName("");
+        mYeniEkleWidget->title()->setText("Yeni Kategori Ekle+");
         mStackedWidget.get()->slideInIdx(1);
     });
 
-    QObject::connect(mKategorListView,&KategoriListWidget::changeKategoriName,[=](const QString &currentName){
-        mYeniEkleWidget->setCurrentKategoriName(currentName);
+    QObject::connect(mKategorListView,&KategoriListWidget::changeKategoriName,[=](const QString &currentName,const QString &kategoriOid){
+        mYeniEkleWidget->setCurrentKategoriName(currentName,kategoriOid);
+        mYeniEkleWidget->title()->setText("Değiştir");
         mStackedWidget.get()->slideInIdx(1);
     });
 
@@ -51,10 +53,30 @@ Kategori::KategoriManagerWidget::KategoriManagerWidget()
     });
 
 
+    QObject::connect(mYeniEkleWidget,&YeniEkleWidget::degisClicked,[=](const QString& newKategoriName, const QString &kategoriOid){
+
+        qDebug() << newKategoriName << kategoriOid;
+        if( kategoriOid.size() ){
+            Cafe::Kategori::KategoriItem item;
+            item.setOid(kategoriOid.toStdString());
+            item.setName(newKategoriName.toStdString());
+            auto ins = mKategorListView->kategoriModel()->UpdateItem(item);
+            if( ins ){
+                mKategorListView->kategoriModel()->UpdateList();
+            }
+            mStackedWidget->slideInIdx(0);
+        }
+
+    });
+
+
+
+
     mDeleteWidget = new DeleteWidget(this);
     mStackedWidget->addWidget(mDeleteWidget);
 
     QObject::connect(mKategorListView,&KategoriListWidget::delClicked,[=](const QString &name, const QString &oid){
+        mDeleteWidget->setKategoriNameOid(name,oid);
         mStackedWidget->slideInIdx(2);
     });
 
@@ -63,8 +85,12 @@ Kategori::KategoriManagerWidget::KategoriManagerWidget()
     });
 
     QObject::connect(mDeleteWidget->delBtn(),&QPushButton::clicked,[=](){
-        //TODO: Kategori Silinecek
-        qDebug() << "Delete Kategori: "<<mDeleteWidget->kategoriOid()->text();
+        Cafe::Kategori::KategoriItem item;
+        item.setOid(mDeleteWidget->kategoriOid()->text().toStdString());
+        auto ins = mKategorListView->kategoriModel()->DeleteItem(item);
+        if( ins ){
+            mKategorListView->kategoriModel()->UpdateList();
+        }
         mStackedWidget->slideInIdx(0);
     });
 

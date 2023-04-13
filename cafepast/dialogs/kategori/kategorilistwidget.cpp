@@ -51,14 +51,16 @@ KategoriListWidget::KategoriListWidget(QWidget *parent)
         if( mListView.get()->currentIndex().row() < 0 ){
             qDebug() << "Error No Model Item Selected";
         }else{
-            emit this->changeKategoriName(mListView.get()->currentIndex().data(Qt::DisplayRole).toString());
+            emit this->changeKategoriName(mListView.get()->currentIndex().data(Qt::DisplayRole).toString(),
+                                          mListView.get()->currentIndex().data(Qt::UserRole+1).toString());
         }
 
     });
 
     QObject::connect(mDeleteBtn,&QPushButton::clicked,[=](){
         auto str = this->mListView->currentIndex().data(Qt::DisplayRole).toString();
-        emit this->delClicked(str,"No Oid");
+        auto oid = this->mListView->currentIndex().data(Qt::UserRole+1).toString();
+        emit this->delClicked(str,oid);
     });
 
 }
