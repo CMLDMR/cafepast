@@ -15,6 +15,9 @@ public:
     GlobalDB();
 
 
+    ///
+    /// \brief singletor instance DB
+    /// \return static MongoCore::DB*
     static MongoCore::DB* DB();
 
 
