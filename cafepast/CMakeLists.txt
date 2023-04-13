@@ -12,7 +12,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zc:__cplusplus")
 
 
 set(bsoncxx_DIR ../../mongocore/lib/cmake/bsoncxx-3.7.0)
-set(mongocxx_DIR ../..//mongocore/lib/cmake/mongocxx-3.7.0)
+set(mongocxx_DIR ../../mongocore/lib/cmake/mongocxx-3.7.0)
 
 include_directories("${CMAKE_SOURCE_DIR}")
 
