@@ -17,6 +17,7 @@
 
 #include "kategori/kategorilistwidget.h"
 #include "kategori/yenieklewidget.h"
+#include "kategori/deletewidget.h"
 
 namespace Kategori{
 
@@ -43,6 +44,7 @@ private:
     std::unique_ptr<SlidingStackedWidget> mStackedWidget;
 
     YeniEkleWidget* mYeniEkleWidget;
+    DeleteWidget* mDeleteWidget;
 };
 
 
