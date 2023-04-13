@@ -27,7 +27,7 @@ public:
 
 signals:
     void addNewKategoriBtn();
-    void changeKategoriName( const QString &);
+    void changeKategoriName( const QString &, const QString &);
     void delClicked( const QString&, const QString&);
 
 

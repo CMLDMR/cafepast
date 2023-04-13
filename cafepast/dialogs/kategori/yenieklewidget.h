@@ -10,6 +10,8 @@
 class QVBoxLayout;
 class QPushButton;
 class QLineEdit;
+class QLabel;
+
 namespace Kategori {
 
 class YeniEkleWidget : public QWidget
@@ -19,11 +21,14 @@ public:
     explicit YeniEkleWidget(QWidget *parent = nullptr);
 
 
-    void setCurrentKategoriName( const QString &currentKategoriName );
+    void setCurrentKategoriName( const QString &currentKategoriName, const QString &kategoriOid = "");
+    QLabel *title() const;
+
 signals:
 
     void iptalClicked();
     void yeniClicked( const QString&);
+    void degisClicked( const QString&, const QString&);
 
 private:
 
@@ -31,6 +36,9 @@ private:
     std::unique_ptr<QLineEdit> mKategoriAdiLineEdit;
     std::unique_ptr<QPushButton> mEkleBtn;
     std::unique_ptr<QPushButton> mIptalBtn;
+
+    QLabel* mTitle;
+    QString mKategoriOid;
 
 };
 

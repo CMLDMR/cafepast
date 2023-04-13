@@ -31,6 +31,14 @@ QVariant Kategori::KategoriListModel::data(const QModelIndex &index, int role) c
             return mList.at(index.row()).getKategoriName().c_str();
         }
     }
+
+    if( role == Qt::UserRole+1 ){
+        if( index.row() >= mList.size() ){
+            return "";
+        }else{
+            return mList.at(index.row()).oid().value().to_string().c_str();
+        }
+    }
     return QVariant{};
 }
 
