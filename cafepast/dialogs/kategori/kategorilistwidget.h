@@ -28,6 +28,7 @@ public:
 signals:
     void addNewKategoriBtn();
     void changeKategoriName( const QString &);
+    void delClicked( const QString&, const QString&);
 
 
 
@@ -44,6 +45,7 @@ private:
     std::unique_ptr<QHBoxLayout> mControlLayout;
     std::unique_ptr<QPushButton> mYeniEkleSlideButton;
     QPushButton* mAdiniDegistirBtn;
+    QPushButton* mDeleteBtn;
 
 };
 

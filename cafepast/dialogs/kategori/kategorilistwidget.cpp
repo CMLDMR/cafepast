@@ -36,7 +36,8 @@ KategoriListWidget::KategoriListWidget(QWidget *parent)
     mYeniEkleSlideButton = std::make_unique<QPushButton>("Yeni Ekle");
     mControlLayout->addWidget(mYeniEkleSlideButton.get());
 
-    mControlLayout->addWidget(new QPushButton("Seçili Olanı Sil"));
+    mDeleteBtn = new QPushButton("Sil");
+    mControlLayout->addWidget(mDeleteBtn);
 
     QObject::connect(mYeniEkleSlideButton.get(),&QPushButton::clicked,[=](){
         emit this->addNewKategoriBtn();
@@ -53,6 +54,11 @@ KategoriListWidget::KategoriListWidget(QWidget *parent)
             emit this->changeKategoriName(mListView.get()->currentIndex().data(Qt::DisplayRole).toString());
         }
 
+    });
+
+    QObject::connect(mDeleteBtn,&QPushButton::clicked,[=](){
+        auto str = this->mListView->currentIndex().data(Qt::DisplayRole).toString();
+        emit this->delClicked(str,"No Oid");
     });
 
 }

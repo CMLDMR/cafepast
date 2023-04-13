@@ -50,18 +50,28 @@ Kategori::KategoriManagerWidget::KategoriManagerWidget()
         mStackedWidget->slideInIdx(0);
     });
 
+
+    mDeleteWidget = new DeleteWidget(this);
+    mStackedWidget->addWidget(mDeleteWidget);
+
+    QObject::connect(mKategorListView,&KategoriListWidget::delClicked,[=](const QString &name, const QString &oid){
+        mStackedWidget->slideInIdx(2);
+    });
+
+    QObject::connect(mDeleteWidget->iptalBtn(),&QPushButton::clicked,[=](){
+        mStackedWidget->slideInIdx(0);
+    });
+
+    QObject::connect(mDeleteWidget->delBtn(),&QPushButton::clicked,[=](){
+        //TODO: Kategori Silinecek
+        qDebug() << "Delete Kategori: "<<mDeleteWidget->kategoriOid()->text();
+        mStackedWidget->slideInIdx(0);
+    });
+
+
+
     this->setMinimumWidth(450);
     this->setMinimumHeight(350);
-
-//    this->setLimit(100);
-//    this->UpdateList();
-
-
 }
-
-//void Kategori::KategoriManagerWidget::onList(const std::vector<Cafe::Kategori::KategoriItem> &mList)
-//{
-//    mKategorListView->setList(mList);
-//}
 
 
