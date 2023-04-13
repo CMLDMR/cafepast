@@ -11,7 +11,9 @@
 
 #include <QTabWidget>
 #include <QHBoxLayout>
+
 #include "global/globalVar.h"
+#include "tabWidgets/tabwidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -50,7 +52,7 @@ private:
 
 
     void initWidget();
-    std::unique_ptr<QTabWidget> mTabWidget;
+    std::unique_ptr<TabWidget> mTabWidget;
     std::unique_ptr<QHBoxLayout> mCentralWidgetLayout;
 
 };
