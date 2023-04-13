@@ -13,7 +13,7 @@ class AbstractListWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AbstractListWidget(const QString &tabWidgetName,QWidget *parent );
+    explicit AbstractListWidget(const QString &tabWidgetName,QWidget *parent =nullptr);
 
     QString tabWidgetName() const;
 

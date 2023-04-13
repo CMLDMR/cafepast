@@ -3,7 +3,6 @@
 #include "./ui_mainwindow.h"
 
 #include "mongocxx/client.hpp"
-#include "tabWidgets/poahacawidget.h"
 #include "dialogs/kategorimanagerwidget.h"
 
 
@@ -63,16 +62,12 @@ void MainWindow::initAction()
 void MainWindow::initWidget()
 {
 
-    mTabWidget = std::make_unique<QTabWidget>();
+    mTabWidget = std::make_unique<TabWidget>();
 
     mCentralWidgetLayout = std::make_unique<QHBoxLayout>();
     ui->centralwidget->setLayout(mCentralWidgetLayout.get());
 
     mCentralWidgetLayout->addWidget(mTabWidget.get());
-
-    auto pohacaWidget = new PoahacaWidget("Pohaçalar");
-    mTabWidget->insertTab(0,pohacaWidget,pohacaWidget->tabWidgetName());
-
 
 
 }
