@@ -4,7 +4,6 @@
 
 
 #include <mongocore/listitem.h>
-#include "global/globalVar.h"
 
 namespace Cafe {
 namespace Urun {
@@ -49,7 +48,9 @@ public:
 class UrunManager : public MongoCore::ListItem<UrunItem>
 {
 public:
-    UrunManager
+    UrunManager();
+
+    virtual void onList( const std::vector<UrunItem> &mList ) override;
 };
 
 } // namespace Urun

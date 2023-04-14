@@ -1,5 +1,6 @@
 
 #include "urunitem.h"
+#include "global/globalVar.h"
 
 namespace Cafe {
 namespace Urun {
