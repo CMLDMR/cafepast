@@ -62,14 +62,9 @@ LocalConfiguration *LocalConfiguration::instance()
 bool LocalConfiguration::loadConfigurationFile()
 {
     QFile file("configure.dat");
-
     if( file.open(QIODevice::ReadOnly) ){
-
         auto ar = file.readAll();
-
         mConfigurations = QJsonDocument::fromJson(ar).object();
-        qDebug() <<"Load: "<< mConfigurations;
-
         file.close();
         mIsLoaded = true;
         return true;
@@ -81,15 +76,9 @@ bool LocalConfiguration::loadConfigurationFile()
 
 bool LocalConfiguration::saveConfigurationFile()
 {
-
     QFile file("configure.dat");
-
     if( file.open(QIODevice::ReadWrite) ){
-
-
-        qDebug() <<"Save: "<< QJsonDocument(mConfigurations).toJson();
         file.write(QJsonDocument(mConfigurations).toJson());
-
         file.close();
         return true;
     }else{
@@ -106,6 +95,18 @@ void LocalConfiguration::setCurrentParaBirimi(const std::string &paraBirimi)
 std::string LocalConfiguration::getCurrentParaBirimi() const
 {
     auto val = mConfigurations.value("paraBirimi");
+    return val.toString().toStdString();
+}
+
+void LocalConfiguration::setCurrentLang(const std::string &langShortName)
+{
+    mConfigurations.insert("language",langShortName.data());
+    this->saveConfigurationFile();
+}
+
+std::string LocalConfiguration::getCurrentLang() const
+{
+    auto val = mConfigurations.value("language");
     return val.toString().toStdString();
 }
 

@@ -26,6 +26,8 @@ public:
     void setCurrentParaBirimi(const std::string &paraBirimi);
     std::string getCurrentParaBirimi() const;
 
+    void setCurrentLang( const std::string &langShortName );
+    std::string getCurrentLang() const;
 
     bool isLoaded() const;
 
@@ -42,13 +44,10 @@ class GlobalDB
 public:
     GlobalDB();
 
-
     ///
     /// \brief singletor instance DB
     /// \return static MongoCore::DB*
     static MongoCore::DB* DB();
-
-
 
 private:
     MongoCore::DB* mDB;

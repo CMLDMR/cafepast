@@ -2,10 +2,13 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-#include "mongocxx/client.hpp"
+
 #include "dialogs/kategorimanagerwidget.h"
 #include "dialogs/paraDialog/paradialog.h"
+#include "dialogs/langDialog/languagedialog.h"
+#include "cafecore/languageitem.h"
 
+using Cafe::Language::LanguageTextManager;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -30,17 +33,17 @@ MainWindow::~MainWindow()
 void MainWindow::initAction()
 {
 
-    mUrunMenu = std::make_unique<QMenu>(QObject::tr("Ürünler"));
+    mUrunMenu = std::make_unique<QMenu>(TR("Ürünler"));
     ui->menubar->addMenu(mUrunMenu.get());
 
 
-    mYeniUrunAction = std::make_unique<QAction>("Yeni Ürün Girişi");
+    mYeniUrunAction = std::make_unique<QAction>(TR("Yeni Ürün Girişi"));
     mUrunMenu->addAction(mYeniUrunAction.get());
 
-    mUrunUpdateAction = std::make_unique<QAction>("Ürün Güncelleme");
+    mUrunUpdateAction = std::make_unique<QAction>(TR("Ürün Güncelleme"));
     mUrunMenu->addAction(mUrunUpdateAction.get());
 
-    mKategoriManagerList = std::make_unique<QAction>("Kategori Yönetimi");
+    mKategoriManagerList = std::make_unique<QAction>(TR("Kategori Yönetimi"));
     mUrunMenu->addAction(mKategoriManagerList.get());
     QObject::connect(mKategoriManagerList.get(),&QAction::triggered,[=](const bool triggered){
         auto mkategoriManager = new Kategori::KategoriManagerWidget();
@@ -49,10 +52,10 @@ void MainWindow::initAction()
     });
 
 
-    mAyarlarMenu = std::make_unique<QMenu>(QObject::tr("Ayarlar"));
+    mAyarlarMenu = std::make_unique<QMenu>(TR("Ayarlar"));
     ui->menubar->addMenu(mAyarlarMenu.get());
 
-    mParaBirimiAction = std::make_unique<QAction>("Para Birimi");
+    mParaBirimiAction = std::make_unique<QAction>(TR("Para Birimi"));
     QObject::connect(mParaBirimiAction.get(),&QAction::triggered,[=](const bool triggered){
         auto mParaManagerDialog = new ParaBirimi::ParaDialog();
         mParaManagerDialog->exec();
@@ -60,8 +63,21 @@ void MainWindow::initAction()
     });
     mAyarlarMenu->addAction(mParaBirimiAction.get());
 
-    mDilSecimiAction = std::make_unique<QAction>("Dil Seçimi");
+    mDilSecimiAction = std::make_unique<QAction>(TR("Dil Seçimi"));
+    QObject::connect(mDilSecimiAction.get(),&QAction::triggered,[=](const bool triggered){
+        auto mLanguageDialog = new Language::LanguageDialog();
+        mLanguageDialog->exec();
+        delete mLanguageDialog;
+    });
     mAyarlarMenu->addAction(mDilSecimiAction.get());
+
+    mTextManagerAction = std::make_unique<QAction>(TR("Text Bank"));
+        QObject::connect(mTextManagerAction.get(),&QAction::triggered,[=](const bool triggered){
+//            auto mLanguageDialog = new Language::LanguageDialog();
+//            mLanguageDialog->exec();
+//            delete mLanguageDialog;
+        });
+    mAyarlarMenu->addAction(mTextManagerAction.get());
 
 }
 

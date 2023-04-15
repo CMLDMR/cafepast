@@ -22,11 +22,10 @@ ParaDialog::ParaDialog()
     this->setLayout(mMainLayout);
 
     mParaDialogTitle = new QLabel(QString("Şuanki Para Birimi: <b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentParaBirimi().data() + QString("</i></b>"));
+                       mParaDialogTitle->setFont(QFont("Tahoma",14));
     mMainLayout->addWidget(mParaDialogTitle);
 
     mMainLayout->addStretch(1);
-
-
 
     mParaBirimiLayout = new QHBoxLayout();
     mCurrentParaBirimi = new QComboBox();
@@ -64,12 +63,10 @@ ParaDialog::ParaDialog()
         }
     });
 
-
     mParaItemModel->UpdateList();
 
     this->setMinimumHeight(150);
     this->setMinimumWidth(350);
-
 
 }
 
@@ -78,7 +75,7 @@ void ParaDialog::varsayilanParaSec()
     auto currentParaBirimiText = mCurrentParaBirimi->currentText().toStdString();
     GlobarVar::LocalConfiguration::instance()->setCurrentParaBirimi(currentParaBirimiText);
 
-    mParaDialogTitle->setText(QString("Şuanki Para Birimi: <h3><b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentParaBirimi().data() + QString("</i></b></h3>"));
+    mParaDialogTitle->setText(QString("Şuanki Para Birimi: <b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentParaBirimi().data() + QString("</i></b>"));
 
 }
 

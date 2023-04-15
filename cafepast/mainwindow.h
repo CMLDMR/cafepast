@@ -12,8 +12,8 @@
 #include <QTabWidget>
 #include <QHBoxLayout>
 
-#include "global/globalVar.h"
 #include "tabWidgets/tabwidget.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -46,6 +46,7 @@ private:
     std::unique_ptr<QMenu> mAyarlarMenu;
     std::unique_ptr<QAction> mParaBirimiAction;
     std::unique_ptr<QAction> mDilSecimiAction;
+    std::unique_ptr<QAction> mTextManagerAction;
 
     QTranslator mEnglishTranslator;
     QTranslator mMakedonTranslator;
