@@ -1,5 +1,7 @@
 
 #include "deletewidget.h"
+#include "cafecore/languageitem.h"
+
 
 #include <QVBoxLayout>
 #include <QLabel>
@@ -16,12 +18,12 @@ DeleteWidget::DeleteWidget(QWidget *parent)
     this->setLayout(mMainLayout);
 
     mTitle = new QLabel();
-    mTitle->setText("Silmek İstediğinize Emin misiniz?");
+    mTitle->setText(TR("Silmek İstediğinize Emin misiniz?"));
     mMainLayout->addWidget(mTitle);
     mMainLayout->addStretch(1);
 
     mKategoriName = new QLabel();
-    mKategoriName->setText("Kategori Adı");
+    mKategoriName->setText(TR("Kategori Adı"));
         mMainLayout->addWidget(mKategoriName);
 
     mKategoriOid = new QLabel();
@@ -35,10 +37,10 @@ DeleteWidget::DeleteWidget(QWidget *parent)
     mControlLayout = new QHBoxLayout();
     mMainLayout->addLayout(mControlLayout);
 
-    mDelBtn = new QPushButton("Evet");
+    mDelBtn = new QPushButton(TR("Evet"));
     mControlLayout->addWidget(mDelBtn);
 
-    mIptalBtn = new QPushButton("Hayır");
+    mIptalBtn = new QPushButton(TR("Hayır"));
     mControlLayout->addWidget(mIptalBtn);
 
 
@@ -76,7 +78,7 @@ QLabel *DeleteWidget::kategoriOid() const
 
 void DeleteWidget::setKategoriNameOid(const QString &kategoriName, const QString &kategoriOid)
 {
-    this->mKategoriName->setText(kategoriName);
+    this->mKategoriName->setText(TR(kategoriName.toStdString()));
     this->mKategoriOid->setText(kategoriOid);
 }
 

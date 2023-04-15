@@ -9,7 +9,6 @@
 
 #include <QObject>
 
-#include "cafecore/languageitem.h"
 
 
 class QTableView;

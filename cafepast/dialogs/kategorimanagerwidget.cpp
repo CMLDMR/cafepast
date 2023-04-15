@@ -1,9 +1,11 @@
 
 #include "kategorimanagerwidget.h"
+#include "cafecore/languageitem.h"
+
 
 Kategori::KategoriManagerWidget::KategoriManagerWidget()
 {
-    this->setWindowTitle("Kategori Yönetimi");
+    this->setWindowTitle(TR("Kategori Yönetimi"));
 
     mLayout = std::make_unique<QVBoxLayout>();
 
@@ -26,13 +28,13 @@ Kategori::KategoriManagerWidget::KategoriManagerWidget()
 
     QObject::connect(mKategorListView,&KategoriListWidget::addNewKategoriBtn,[=](){
         mYeniEkleWidget->setCurrentKategoriName("");
-        mYeniEkleWidget->title()->setText("Yeni Kategori Ekle+");
+        mYeniEkleWidget->title()->setText(TR("Yeni Kategori Ekle+"));
         mStackedWidget.get()->slideInIdx(1);
     });
 
     QObject::connect(mKategorListView,&KategoriListWidget::changeKategoriName,[=](const QString &currentName,const QString &kategoriOid){
         mYeniEkleWidget->setCurrentKategoriName(currentName,kategoriOid);
-        mYeniEkleWidget->title()->setText("Değiştir");
+        mYeniEkleWidget->title()->setText(TR("Değiştir"));
         mStackedWidget.get()->slideInIdx(1);
     });
 
@@ -55,7 +57,6 @@ Kategori::KategoriManagerWidget::KategoriManagerWidget()
 
     QObject::connect(mYeniEkleWidget,&YeniEkleWidget::degisClicked,[=](const QString& newKategoriName, const QString &kategoriOid){
 
-        qDebug() << newKategoriName << kategoriOid;
         if( kategoriOid.size() ){
             Cafe::Kategori::KategoriItem item;
             item.setOid(kategoriOid.toStdString());

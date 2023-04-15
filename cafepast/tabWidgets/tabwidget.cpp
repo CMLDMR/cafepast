@@ -3,7 +3,7 @@
 #include <QMenu>
 #include <QContextMenuEvent>
 
-
+#include "cafecore/languageitem.h"
 #include "abstractlistwidget.h"
 
 TabWidget::TabWidget()
@@ -13,7 +13,6 @@ TabWidget::TabWidget()
     this->setTabShape(QTabWidget::TabShape::Rounded);
 
     QObject::connect(this,&QTabWidget::tabCloseRequested,[=](const int index){
-        qDebug() << index;
         this->removeTab(index);
     });
 }
@@ -33,14 +32,14 @@ void TabWidget::contextMenuEvent(QContextMenuEvent *event)
     auto list = mKategoriManager->List();
 
     for( const auto &kategoriItem : list ){
-        auto action = menu.addAction(kategoriItem.getKategoriName().c_str());
+        auto action = menu.addAction(TR(kategoriItem.getKategoriName().c_str()));
         QObject::connect(action,&QAction::triggered,[=](){
             auto pohacaWidget = new AbstractListWidget(action->text());
             this->insertTab(0,pohacaWidget,pohacaWidget->tabWidgetName());
         });
     }
 
-    menu.addAction("Kapat");
+    menu.addAction(TR("Kapat"));
 
 
 

@@ -74,7 +74,6 @@ LanguageTextBankDialog::LanguageTextBankDialog()
             Cafe::Language::TextItem filter;
             filter.setLang(mCurrentLangComboBox->currentData(LanguageModel::shortName).toString().toStdString());
             mTextBankModel->UpdateList(filter);
-            mTextBankModel->UpdateList();
         }
 
     });
@@ -83,7 +82,7 @@ LanguageTextBankDialog::LanguageTextBankDialog()
     QObject::connect(mCurrentLangComboBox,&QComboBox::currentTextChanged,[=]( const QString &currentText){
         if( GlobarVar::LocalConfiguration::instance()->getCurrentLang().data() == mCurrentLangComboBox->currentData(LanguageModel::shortName).toString() ){
             auto str = "<b>"+mCurrentLangComboBox->currentData(LanguageModel::shortName).toString()+"</b>";
-            mCurrentLangLabel->setText(QString("Şuanki Sistem Dili: ")+str);
+            mCurrentLangLabel->setText(QString(TR("Şuanki Sistem Dili")+QString(": "))+str);
                 mDestLangLineEdit->setText(mCurrentLangComboBox->currentData(LanguageModel::shortName).toString());
 
             Cafe::Language::TextItem filter;

@@ -2,6 +2,7 @@
 #include "languagedialog.h"
 #include "model/languagemodel.h"
 #include "global/globalVar.h"
+#include "cafecore/languageitem.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -15,14 +16,14 @@ namespace Language {
 LanguageDialog::LanguageDialog()
 {
 
-    setWindowTitle("Dil Seçimi/Düzenleme");
+    setWindowTitle(TR("Dil Seçimi/Düzenleme"));
 
     mLangModel = new LanguageModel();
 
     mMainLayout = new QVBoxLayout();
     this->setLayout(mMainLayout);
 
-    mTitleLabel = new QLabel(QString("Şuanki Dil: <b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentLang().data()+QString("</i></b>"));
+    mTitleLabel = new QLabel(TR("Şuanki Dil")+QString(": <b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentLang().data()+QString("</i></b>"));
     mTitleLabel->setFont(QFont("Tahoma",14));
     mMainLayout->addWidget(mTitleLabel);
 
@@ -33,7 +34,7 @@ LanguageDialog::LanguageDialog()
     mDilComboBox->setModel(mLangModel);
     mSelectLangLayout->addWidget(mDilComboBox);
 
-    mVarsayilanYapBtn = new QPushButton("Varsayılan Yap");
+    mVarsayilanYapBtn = new QPushButton(TR("Varsayılan Yap"));
     mSelectLangLayout->addWidget(mVarsayilanYapBtn);
     mMainLayout->addLayout(mSelectLangLayout);
 
@@ -43,12 +44,12 @@ LanguageDialog::LanguageDialog()
     mYeniDilEkleLayout = new QHBoxLayout();
     mLanguageNameLineEdit = new QLineEdit();
     mLanguageShortNameLineEdit = new QLineEdit();
-    mEkleButton = new QPushButton("Ekle+");
+    mEkleButton = new QPushButton(TR("Ekle+"));
 
     mYeniDilEkleLayout->addWidget(mLanguageNameLineEdit);
-    mLanguageNameLineEdit->setPlaceholderText("Yeni Dilin Tam Adını Giriniz");
+    mLanguageNameLineEdit->setPlaceholderText(TR("Yeni Dilin Tam Adını Giriniz"));
     mYeniDilEkleLayout->addWidget(mLanguageShortNameLineEdit);
-    mLanguageShortNameLineEdit->setPlaceholderText("Yeni Dilin Kısaltmasını Giriniz... (en)");
+    mLanguageShortNameLineEdit->setPlaceholderText(TR("Yeni Dilin Kısaltmasını Giriniz... (en)"));
     mYeniDilEkleLayout->addWidget(mEkleButton);
 
     mMainLayout->addLayout(mYeniDilEkleLayout);
@@ -66,7 +67,7 @@ LanguageDialog::LanguageDialog()
 
     QObject::connect(mVarsayilanYapBtn,&QPushButton::clicked,[=](){
         GlobarVar::LocalConfiguration::instance()->setCurrentLang(mDilComboBox->currentData(Language::LanguageModel::shortName).toString().toStdString());
-        mTitleLabel->setText(QString("Şuanki Dil: <b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentLang().data()+QString("</i></b>"));
+        mTitleLabel->setText(TR("Şuanki Dil")+QString(": <b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentLang().data()+QString("</i></b>"));
 
     });
 

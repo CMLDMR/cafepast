@@ -1,6 +1,8 @@
 
 #include "paradialog.h"
 #include "model/paraitemmodel.h"
+#include "cafecore/languageitem.h"
+
 #include "global/globalVar.h"
 
 #include <QVBoxLayout>
@@ -16,12 +18,12 @@ namespace ParaBirimi {
 ParaDialog::ParaDialog()
 {
 
-    this->setWindowTitle("Para Birimi Seç/Ekle");
+    this->setWindowTitle(TR("Para Birimi Seç/Ekle"));
 
     mMainLayout = new QVBoxLayout();
     this->setLayout(mMainLayout);
 
-    mParaDialogTitle = new QLabel(QString("Şuanki Para Birimi: <b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentParaBirimi().data() + QString("</i></b>"));
+    mParaDialogTitle = new QLabel(TR("Şuanki Para Birimi") +QString(": <b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentParaBirimi().data() + QString("</i></b>"));
                        mParaDialogTitle->setFont(QFont("Tahoma",14));
     mMainLayout->addWidget(mParaDialogTitle);
 
@@ -32,8 +34,8 @@ ParaDialog::ParaDialog()
     mParaItemModel = new ParaItemModel();
     mCurrentParaBirimi->setModel(mParaItemModel);
     mParaBirimiLayout->addWidget(mCurrentParaBirimi);
-    mVarsayilanParaBirimiSecBtn = new QPushButton("Varsayılan Seç");
-    mParaBiriminiSilBtn = new QPushButton("Sil");
+    mVarsayilanParaBirimiSecBtn = new QPushButton(TR("Varsayılan Yap"));
+        mParaBiriminiSilBtn = new QPushButton(TR("Sil"));
     mParaBirimiLayout->addWidget(mVarsayilanParaBirimiSecBtn);
     QObject::connect(mVarsayilanParaBirimiSecBtn,&QPushButton::clicked,this,&ParaDialog::varsayilanParaSec);
     mParaBirimiLayout->addWidget(mParaBiriminiSilBtn);
@@ -44,10 +46,10 @@ ParaDialog::ParaDialog()
 
     mYeniLayout = new QHBoxLayout();
     mYeniParaBirimiLineEdit = new QLineEdit();
-    mYeniParaBirimiLineEdit->setPlaceholderText("Yeni Para Birimini Giriniz");
+    mYeniParaBirimiLineEdit->setPlaceholderText(TR("Yeni Para Birimini Giriniz"));
     mYeniLayout->addWidget(mYeniParaBirimiLineEdit);
 
-    mYeniParaBirimiEkle = new QPushButton("Ekle+");
+    mYeniParaBirimiEkle = new QPushButton(TR("Ekle+"));
     mYeniLayout->addWidget(mYeniParaBirimiEkle);
     mMainLayout->addLayout(mYeniLayout);
 
@@ -75,7 +77,7 @@ void ParaDialog::varsayilanParaSec()
     auto currentParaBirimiText = mCurrentParaBirimi->currentText().toStdString();
     GlobarVar::LocalConfiguration::instance()->setCurrentParaBirimi(currentParaBirimiText);
 
-    mParaDialogTitle->setText(QString("Şuanki Para Birimi: <b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentParaBirimi().data() + QString("</i></b>"));
+    mParaDialogTitle->setText(TR("Şuanki Para Birimi") + QString(": <b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentParaBirimi().data() + QString("</i></b>"));
 
 }
 
