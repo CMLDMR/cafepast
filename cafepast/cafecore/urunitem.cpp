@@ -13,7 +13,7 @@ UrunItem::UrunItem()
 
 UrunItem &UrunItem::addUrun(const UrunLanguage &urun)
 {
-    this->pushArray(Key::language.data(),urun);
+    this->pushArray(Key::language.data(),urun.view());
     return *this;
 }
 
