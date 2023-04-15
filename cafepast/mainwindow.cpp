@@ -4,6 +4,7 @@
 
 #include "mongocxx/client.hpp"
 #include "dialogs/kategorimanagerwidget.h"
+#include "dialogs/paraDialog/paradialog.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -52,6 +53,11 @@ void MainWindow::initAction()
     ui->menubar->addMenu(mAyarlarMenu.get());
 
     mParaBirimiAction = std::make_unique<QAction>("Para Birimi");
+    QObject::connect(mParaBirimiAction.get(),&QAction::triggered,[=](const bool triggered){
+        auto mParaManagerDialog = new ParaBirimi::ParaDialog();
+        mParaManagerDialog->exec();
+        delete mParaManagerDialog;
+    });
     mAyarlarMenu->addAction(mParaBirimiAction.get());
 
     mDilSecimiAction = std::make_unique<QAction>("Dil Seçimi");
