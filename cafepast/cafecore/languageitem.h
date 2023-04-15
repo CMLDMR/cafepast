@@ -64,6 +64,8 @@ public:
                       const std::string &shortLang,
                       const std::string &destText );
 
+    TextItem &setLang( const std::string &shortLang );
+
     std::string getText() const;
     std::string getLang() const;
     std::string getDestText() const;

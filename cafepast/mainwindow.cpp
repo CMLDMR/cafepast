@@ -6,7 +6,9 @@
 #include "dialogs/kategorimanagerwidget.h"
 #include "dialogs/paraDialog/paradialog.h"
 #include "dialogs/langDialog/languagedialog.h"
+#include "dialogs/langDialog/languagetextbankdialog.h"
 #include "cafecore/languageitem.h"
+#include "global/globalVar.h"
 
 using Cafe::Language::LanguageTextManager;
 
@@ -15,10 +17,13 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    Cafe::Language::LanguageTextManager::instance()->setDestinationShortLang(GlobarVar::LocalConfiguration::instance()->getCurrentLang().data());
 
+    this->setWindowTitle("Cafe Del Mar - " + QString(GlobarVar::LocalConfiguration::instance()->getCurrentLang().data()).toUpper());
     this->initAction();
 
     this->initWidget();
+
 
     if( mEnglishTranslator.load(":/language_en") ){
         qApp->installTranslator(&mEnglishTranslator);
@@ -71,11 +76,11 @@ void MainWindow::initAction()
     });
     mAyarlarMenu->addAction(mDilSecimiAction.get());
 
-    mTextManagerAction = std::make_unique<QAction>(TR("Text Bank"));
+    mTextManagerAction = std::make_unique<QAction>(TR("Sözlük"));
         QObject::connect(mTextManagerAction.get(),&QAction::triggered,[=](const bool triggered){
-//            auto mLanguageDialog = new Language::LanguageDialog();
-//            mLanguageDialog->exec();
-//            delete mLanguageDialog;
+        auto mLanguageTextBankDialog = new Language::LanguageTextBankDialog();
+            mLanguageTextBankDialog->exec();
+            delete mLanguageTextBankDialog;
         });
     mAyarlarMenu->addAction(mTextManagerAction.get());
 

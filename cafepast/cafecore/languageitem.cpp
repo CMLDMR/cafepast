@@ -90,6 +90,12 @@ TextItem &TextItem::setText(const std::string &trText, const std::string &shortL
     return *this;
 }
 
+TextItem &TextItem::setLang(const std::string &shortLang)
+{
+    this->append(Key::Text::shortLang,shortLang);
+    return *this;
+}
+
 std::string TextItem::getText() const
 {
     auto val = this->element(Key::Text::trText.data());
@@ -152,7 +158,11 @@ std::string LanguageTextManager::tr(const std::string &text)
     if( exist ){
         return str;
     }else{
-        return "!"+text+"!";
+        if( mDestinationShortLang == "tr" ){
+            return text;
+        }else{
+            return "!"+text+"!";
+        }
     }
 }
 
