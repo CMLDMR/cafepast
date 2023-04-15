@@ -1,6 +1,7 @@
 
 #include "paradialog.h"
 #include "model/paraitemmodel.h"
+#include "global/globalVar.h"
 
 #include <QVBoxLayout>
 #include <QLabel>
@@ -20,7 +21,7 @@ ParaDialog::ParaDialog()
     mMainLayout = new QVBoxLayout();
     this->setLayout(mMainLayout);
 
-    mParaDialogTitle = new QLabel("Para Birimileri");
+    mParaDialogTitle = new QLabel(QString("Şuanki Para Birimi: <b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentParaBirimi().data() + QString("</i></b>"));
     mMainLayout->addWidget(mParaDialogTitle);
 
     mMainLayout->addStretch(1);
@@ -35,6 +36,7 @@ ParaDialog::ParaDialog()
     mVarsayilanParaBirimiSecBtn = new QPushButton("Varsayılan Seç");
     mParaBiriminiSilBtn = new QPushButton("Sil");
     mParaBirimiLayout->addWidget(mVarsayilanParaBirimiSecBtn);
+    QObject::connect(mVarsayilanParaBirimiSecBtn,&QPushButton::clicked,this,&ParaDialog::varsayilanParaSec);
     mParaBirimiLayout->addWidget(mParaBiriminiSilBtn);
 
     mMainLayout->addLayout(mParaBirimiLayout);
@@ -68,6 +70,15 @@ ParaDialog::ParaDialog()
     this->setMinimumHeight(150);
     this->setMinimumWidth(350);
 
+
+}
+
+void ParaDialog::varsayilanParaSec()
+{
+    auto currentParaBirimiText = mCurrentParaBirimi->currentText().toStdString();
+    GlobarVar::LocalConfiguration::instance()->setCurrentParaBirimi(currentParaBirimiText);
+
+    mParaDialogTitle->setText(QString("Şuanki Para Birimi: <h3><b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentParaBirimi().data() + QString("</i></b></h3>"));
 
 }
 

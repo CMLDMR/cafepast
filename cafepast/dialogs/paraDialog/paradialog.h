@@ -40,6 +40,7 @@ private:
 
     ParaItemModel* mParaItemModel;
 
+    void varsayilanParaSec( );
 
 
 };
