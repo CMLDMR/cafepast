@@ -4,6 +4,7 @@
 #include "cafecore/languageitem.h"
 
 #include "global/globalVar.h"
+#include "global/informationwidget.h"
 
 #include <QVBoxLayout>
 #include <QLabel>
@@ -58,10 +59,19 @@ ParaDialog::ParaDialog()
         Cafe::ParaBirimi::ParaItem paraItem;
         paraItem.setParaName(mYeniParaBirimiLineEdit->text().toStdString());
 
+        auto count = mParaItemModel->countItem(paraItem);
+        if( count ){
+            GlobarVar::InformationWidget::instance()->setInformation(TR("Para Birimi Zaten Var"));
+            return;
+        }
+
         auto ins = mParaItemModel->InsertItem(paraItem);
 
         if( ins.size() ){
+            GlobarVar::InformationWidget::instance()->setInformation(TR("Para Birimi Eklendi"));
             mParaItemModel->UpdateList();
+        }else{
+            GlobarVar::InformationWidget::instance()->setInformation(TR("Hata: "+mParaItemModel->getLastError()));
         }
     });
 
@@ -75,9 +85,15 @@ ParaDialog::ParaDialog()
 void ParaDialog::varsayilanParaSec()
 {
     auto currentParaBirimiText = mCurrentParaBirimi->currentText().toStdString();
-    GlobarVar::LocalConfiguration::instance()->setCurrentParaBirimi(currentParaBirimiText);
+    if( currentParaBirimiText != GlobarVar::LocalConfiguration::instance()->getCurrentParaBirimi() ){
+        GlobarVar::LocalConfiguration::instance()->setCurrentParaBirimi(currentParaBirimiText);
+        mParaDialogTitle->setText(TR("Şuanki Para Birimi") + QString(": <b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentParaBirimi().data() + QString("</i></b>"));
+            GlobarVar::InformationWidget::instance()->setInformation(TR("Sistem Para Birimi Değiştirildi.\nLütfen Uygulamayı Tekrar Başlatın"));
+    }else{
+            GlobarVar::InformationWidget::instance()->setInformation(TR("Sistemde Zaten Bu Para Birimi Seçili"));
 
-    mParaDialogTitle->setText(TR("Şuanki Para Birimi") + QString(": <b><i>") + GlobarVar::LocalConfiguration::instance()->getCurrentParaBirimi().data() + QString("</i></b>"));
+    }
+
 
 }
 

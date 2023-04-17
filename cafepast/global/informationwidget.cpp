@@ -62,7 +62,7 @@ void InformationWidget::animateWindow()
     }else{
         mTimer->stop();
         mCounter = 0;
-        QTimer::singleShot(1500,[=](){
+        QTimer::singleShot(2500,[=](){
             this->setGeometry(mScreen->geometry().width()/2-this->width()/2,mScreen->geometry().height(),300,100);
         });
     }
