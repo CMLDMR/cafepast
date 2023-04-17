@@ -1,5 +1,6 @@
 
 #include "urunmanagerdialog.h"
+#include "global/informationwidget.h"
 
 #include <QVBoxLayout>
 #include <QComboBox>
@@ -115,11 +116,10 @@ UrunManagerDialog::UrunManagerDialog()
             if( upt ){
                 this->updateUrunList();
             }else{
-                //TODO: Pop Up Penceresi Yapılacak. Yapılan işler için uyarı yada bilgilendirme amaçlı. singleton bir sınıf için.
-                qDebug() << "Güncellenemedi";
+                errorOccured(TR("Ürün Güncellenemedi"));
             }
         }else{
-            errorOccured("Bu Çeviri Zaten Var");
+            errorOccured(TR("Bu Para Biriminde Fiyat Mevcut"));
         }
 
 
@@ -129,9 +129,6 @@ UrunManagerDialog::UrunManagerDialog()
     QObject::connect(mUrunListView,&QTableView::doubleClicked,[=]( const QModelIndex &index){
         mSelectedUrunOid->setText(mUrunModel->index(index.row(),0,index).data(Qt::UserRole+1).toString());
     });
-
-
-
 
     QObject::connect(mKategoriComboBox,&QComboBox::currentIndexChanged,[=](const int &index){
         this->updateUrunList();
@@ -149,3 +146,9 @@ void UrunManagerDialog::updateUrunList()
 
 } // namespace Urun
 
+
+
+void Urun::UrunManagerDialog::errorOccured(const std::string &errorText)
+{
+    GlobarVar::InformationWidget::instance()->setInformation(TR(errorText));
+}

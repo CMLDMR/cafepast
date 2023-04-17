@@ -62,6 +62,10 @@ private:
 private:
     void updateUrunList();
 
+
+    // DB interface
+public:
+    virtual void errorOccured(const std::string &errorText) override;
 };
 
 } // namespace Urun

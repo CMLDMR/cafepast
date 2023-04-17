@@ -27,9 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
     this->initWidget();
 
 
-    if( mEnglishTranslator.load(":/language_en") ){
-        qApp->installTranslator(&mEnglishTranslator);
-    }
 }
 
 MainWindow::~MainWindow()
