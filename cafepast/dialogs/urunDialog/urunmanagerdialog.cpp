@@ -96,6 +96,10 @@ UrunManagerDialog::UrunManagerDialog()
 
     QObject::connect(mYeniEkleBtn,&QPushButton::clicked,[=](){
 
+        if( mSelectedUrunOid->text().isEmpty() ){
+            errorOccured(TR("Ürün Seçmediniz"));
+            return;
+        }
 
         Cafe::Urun::UrunItem urunItem;
 
@@ -104,6 +108,11 @@ UrunManagerDialog::UrunManagerDialog()
                 urunItem.setDocumentView(item.view());
                 break;
             }
+        }
+
+        if( urunItem.view().empty() ){
+            errorOccured(TR("Ürün Bulunamadı"));
+            return;
         }
 
         Cafe::Urun::UrunLanguage langItem;

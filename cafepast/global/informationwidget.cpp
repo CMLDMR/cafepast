@@ -19,7 +19,8 @@ InformationWidget::InformationWidget(QWidget *parent)
     this->setLayout(mMainLayout);
 
     mInformationLabel = new QLabel("information Dialog");
-    mMainLayout->addWidget(mInformationLabel);
+    mInformationLabel->setFont(QFont("Tahoma",14));
+    mMainLayout->addWidget(mInformationLabel,1,Qt::AlignCenter);
 
     this->setWindowFlags(Qt::WindowStaysOnTopHint);
     this->setWindowFlag(Qt::WindowType::FramelessWindowHint);
@@ -48,25 +49,22 @@ void InformationWidget::setInformation(const QString &informationText, const Typ
     mTimer->stop();
     mCounter = 0;
     this->setGeometry(mScreen->geometry().width()/2-this->width()/2,mScreen->geometry().height()-100,300,100);
-    mInformationLabel->setText(informationText);
+    mInformationLabel->setText("<b>"+informationText+"</b>");
     this->show();
     mTimer->start();
 }
 
 void InformationWidget::animateWindow()
 {
-
     mCounter +=5;
-
     if( mCounter <= 125 ){
         this->setGeometry(mScreen->geometry().width()/2-this->width()/2,mScreen->geometry().height()-mCounter,300,100);
     }else{
-        if( mCounter >= 1750 ){
-            mTimer->stop();
-            this->close();
-            mCounter = 0;
+        mTimer->stop();
+        mCounter = 0;
+        QTimer::singleShot(1500,[=](){
             this->setGeometry(mScreen->geometry().width()/2-this->width()/2,mScreen->geometry().height(),300,100);
-        }
+        });
     }
 }
 
