@@ -32,7 +32,9 @@ class ParaManager : public MongoCore::ListItem<ParaItem>
 public:
     ParaManager();
 
+    static ParaManager* instance();
     virtual void onList( const std::vector<ParaItem> &mList ) override;
+
 };
 
 

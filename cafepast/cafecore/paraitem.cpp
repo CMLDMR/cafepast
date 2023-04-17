@@ -1,6 +1,7 @@
 
 #include "paraitem.h"
 #include "global/globalVar.h"
+#include <mutex>
 
 namespace Cafe {
 namespace ParaBirimi {
@@ -26,10 +27,22 @@ std::string ParaItem::getParaName() const
     return "";
 }
 
+
+std::once_flag paraManager_once_flag;
+static ParaManager* mParaManager{nullptr};
+
 ParaManager::ParaManager()
     :MongoCore::ListItem<ParaItem>(GlobarVar::GlobalDB::DB())
 {
 
+}
+
+ParaManager *ParaManager::instance()
+{
+    std::call_once(paraManager_once_flag,[=](){
+        mParaManager = new ParaManager();
+    });
+    return mParaManager;
 }
 
 void ParaManager::onList(const std::vector<ParaItem> &mList)

@@ -39,6 +39,8 @@ public:
 
 private:
     std::vector<Cafe::Urun::UrunItem> mList;
+
+    QString getSubLangFiyat(const int HeaderSection , const Cafe::Urun::UrunItem &item ) const;
 };
 
 } // namespace Urun

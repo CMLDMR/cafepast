@@ -1,5 +1,6 @@
 
 #include "urunmodel.h"
+#include "cafecore/paraitem.h"
 #include "cafecore/languageitem.h"
 
 namespace Urun {
@@ -7,7 +8,7 @@ namespace Urun {
 UrunModel::UrunModel(QObject *parent)
     : QAbstractItemModel{parent}
 {
-    Cafe::Language::LanguageManager::instance()->UpdateList();
+    Cafe::ParaBirimi::ParaManager::instance()->UpdateList();
 
 }
 
@@ -43,7 +44,7 @@ int Urun::UrunModel::rowCount(const QModelIndex &parent) const
 
 int Urun::UrunModel::columnCount(const QModelIndex &parent) const
 {
-    return Cafe::Language::LanguageManager::instance()->List().size();
+    return Cafe::ParaBirimi::ParaManager::instance()->List().size()+1;
 }
 
 QVariant Urun::UrunModel::data(const QModelIndex &index, int role) const
@@ -56,18 +57,10 @@ QVariant Urun::UrunModel::data(const QModelIndex &index, int role) const
         if( index.row() >= mList.size() ){
             return "out of range";
         }else{
-            switch (index.column()) {
-            case 0:
+            if( index.column() == 0 ){
                 return QString{mList.at(index.row()).getUrunAdi().c_str()};
-                break;
-            case 1:
-                return QString{"mList.at(index.row()).getLang().c_str()"};
-                break;
-            case 2:
-                return QString{"mList.at(index.row()).getDestText().c_str()"};
-                break;
-            default:
-                break;
+            }else{
+                return this->getSubLangFiyat(index.column(),mList.at(index.row()));
             }
         }
     }
@@ -87,7 +80,7 @@ QVariant Urun::UrunModel::data(const QModelIndex &index, int role) const
 QVariant Urun::UrunModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
 
-    auto list = Cafe::Language::LanguageManager::instance()->List();
+    auto list = Cafe::ParaBirimi::ParaManager::instance()->List();
 
     if (role == Qt::DisplayRole)
     {
@@ -98,10 +91,10 @@ QVariant Urun::UrunModel::headerData(int section, Qt::Orientation orientation, i
             }else{
 
                 QVariant var;
-                for( int i = 1 ; i < list.size() ; i++ ){
+                for( int i = 0 ; i < list.size() ; i++ ){
                     auto item = list.at(i);
-                    if( i == section ){
-                        var = QVariant{item.getLanguageName().c_str()};
+                    if( i == section-1 ){
+                        var = QVariant{item.getParaName().c_str()};
                         break;
                     }
                 }
@@ -110,4 +103,11 @@ QVariant Urun::UrunModel::headerData(int section, Qt::Orientation orientation, i
         }
     }
     return QVariant();
+}
+
+QString Urun::UrunModel::getSubLangFiyat(const int HeaderSection,const Cafe::Urun::UrunItem &item) const
+{
+    auto paraBirimStr = this->headerData(HeaderSection,Qt::Horizontal,Qt::DisplayRole).toString();
+    auto urun = item.getUrun(paraBirimStr.toStdString());
+    return QString::number(urun.getUrunFiyati()) + QString(" ") + urun.getParaBirimi().c_str();
 }

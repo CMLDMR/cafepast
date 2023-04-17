@@ -46,8 +46,7 @@ private:
 
     QHBoxLayout* mYeniEkleLayout;
     QLabel* mSelectedUrunOid;
-    QLineEdit* mYeniAdLineEdit;
-    QComboBox* mLangComboBox;
+//    QLineEdit* mLangAdLineEdit;
     QPushButton* mYeniEkleBtn;
 
     QHBoxLayout* mFiyatLayout;

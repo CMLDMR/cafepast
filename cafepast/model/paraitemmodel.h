@@ -14,6 +14,11 @@ class ParaItemModel : public QAbstractListModel, public Cafe::ParaBirimi::ParaMa
 {
     Q_OBJECT
 public:
+
+    enum Role{
+        ParaItemRole
+    };
+
     explicit ParaItemModel(QObject *parent = nullptr);
 
 

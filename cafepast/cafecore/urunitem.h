@@ -11,14 +11,12 @@ namespace Urun {
 namespace Key{
 inline const std::string_view Collection{"Urunler"};
 
-inline const std::string_view language{"lang"};
+inline const std::string_view paraBirimiArray{"paraBirimiArray"};
 inline const std::string_view kategoriOid{"kategoriOid"};
 inline const std::string_view urunAdi{"urunadi"};
 
 
-namespace LANG{
-inline const std::string_view lang{"lang"};
-inline const std::string_view urunAdi{"urunadi"};
+namespace ParaObj{
 inline const std::string_view urunFiyati{"urunFiyati"};
 inline const std::string_view urunParabirimi{"urunParaBirimi"};
 }
@@ -30,10 +28,12 @@ class UrunLanguage : public MongoCore::Item
 public:
     UrunLanguage();
 
-    UrunLanguage &setLanguage( const std::string &language );
-    UrunLanguage &setUrunAdi( const std::string &urunAdi );
+    UrunLanguage &setUrunFiyati( const double urunFiyati );
+    UrunLanguage &setUrunParaBirimi( const std::string &paraBirimi );
 
-    std::string getLanguage() const;
+    double getUrunFiyati() const;
+
+    std::string getParaBirimi() const;
 };
 
 class UrunItem : public MongoCore::Item
@@ -44,9 +44,12 @@ public:
     UrunItem &setUrunAdi( const std::string &urunAdi );
     UrunItem &setKategoriOid( const std::string &kategoriOid );
 
-    UrunItem &addUrun( const UrunLanguage &urun );
+    bool addUrun( const UrunLanguage &urun );
 
-    UrunLanguage getUrun( const std::string &language );
+    bool IsUrunExist( const std::string &paraBirimi ) const;
+    bool change(const std::string &paraBirimi , const UrunLanguage &newUrun );
+    std::vector<UrunLanguage> getUrunList() const;
+    UrunLanguage getUrun(const std::string &paraBirimi ) const;
     std::string getUrunAdi() const;
 };
 

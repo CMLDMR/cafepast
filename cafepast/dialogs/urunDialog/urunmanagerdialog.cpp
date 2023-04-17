@@ -47,30 +47,31 @@ UrunManagerDialog::UrunManagerDialog()
     mSelectedUrunOid = new QLabel("mSelectedUrunOid");
     mMainLayout->addWidget(mSelectedUrunOid);
 
-    mYeniEkleLayout = new QHBoxLayout();
-    mYeniAdLineEdit = new QLineEdit();
-    mYeniAdLineEdit->setPlaceholderText(TR("Yeni Ürün Adı Ekle"));
-    mYeniEkleLayout->addWidget(mYeniAdLineEdit);
+//    mYeniEkleLayout = new QHBoxLayout();
+//    mLangAdLineEdit = new QLineEdit();
+//    mLangAdLineEdit->setPlaceholderText(TR("Yeni Ürün Adı Ekle"));
+//    mYeniEkleLayout->addWidget(mLangAdLineEdit);
 
     mLangModel = new Language::LanguageModel();
-    mLangComboBox = new QComboBox();
-    mLangComboBox->setModel(mLangModel);
-    mYeniEkleLayout->addWidget(mLangComboBox);
+//    mLangComboBox = new QComboBox();
+//    mLangComboBox->setModel(mLangModel);
+//    mYeniEkleLayout->addWidget(mLangComboBox);
 
-    mYeniEkleBtn = new QPushButton(TR("Ekle+"));
-    mYeniEkleLayout->addWidget(mYeniEkleBtn);
 
-    mMainLayout->addLayout(mYeniEkleLayout);
+
+//    mMainLayout->addLayout(mYeniEkleLayout);
 
 
     mFiyatLayout = new QHBoxLayout();
     mParaBirimiSecLabel = new QLabel(TR("Para Birimi Seç"));
     mFiyatSpinBox = new QDoubleSpinBox();
     mParaBirimiComboBox = new QComboBox();
+    mYeniEkleBtn = new QPushButton(TR("Ekle+"));
 
     mFiyatLayout->addWidget(mParaBirimiSecLabel);
     mFiyatLayout->addWidget(mParaBirimiComboBox);
     mFiyatLayout->addWidget(mFiyatSpinBox);
+    mFiyatLayout->addWidget(mYeniEkleBtn);
 
     mParaModel = new ParaBirimi::ParaItemModel();
     mParaBirimiComboBox->setModel(mParaModel);
@@ -94,6 +95,32 @@ UrunManagerDialog::UrunManagerDialog()
 
     QObject::connect(mYeniEkleBtn,&QPushButton::clicked,[=](){
 
+
+        Cafe::Urun::UrunItem urunItem;
+
+        for(const auto &item : mUrunModel->List() ){
+            if( item.oid()->to_string() == mSelectedUrunOid->text().toStdString() ){
+                urunItem.setDocumentView(item.view());
+                break;
+            }
+        }
+
+        Cafe::Urun::UrunLanguage langItem;
+        langItem.setUrunFiyati(mFiyatSpinBox->value());
+        langItem.setUrunParaBirimi(mParaBirimiComboBox->currentData(ParaBirimi::ParaItemModel::ParaItemRole).toString().toStdString());
+
+
+        if( urunItem.addUrun(langItem) ){
+            auto upt = this->mUrunModel->UpdateItem(urunItem);
+            if( upt ){
+                this->updateUrunList();
+            }else{
+                //TODO: Pop Up Penceresi Yapılacak. Yapılan işler için uyarı yada bilgilendirme amaçlı. singleton bir sınıf için.
+                qDebug() << "Güncellenemedi";
+            }
+        }else{
+            errorOccured("Bu Çeviri Zaten Var");
+        }
 
 
     });
