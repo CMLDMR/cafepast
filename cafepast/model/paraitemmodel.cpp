@@ -6,7 +6,7 @@ namespace ParaBirimi {
 ParaItemModel::ParaItemModel(QObject *parent)
     : QAbstractListModel{parent}
 {
-
+    this->UpdateList();
 }
 
 } // namespace ParaBirimi

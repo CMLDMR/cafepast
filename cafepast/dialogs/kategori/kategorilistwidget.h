@@ -2,7 +2,7 @@
 #ifndef KATEGORI_KATEGORILISTWIDGET_H
 #define KATEGORI_KATEGORILISTWIDGET_H
 
-#include "kategorilistmodel.h"
+#include "model/kategorilistmodel.h"
 
 
 #include <QWidget>

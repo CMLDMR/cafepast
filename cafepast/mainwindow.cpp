@@ -7,6 +7,8 @@
 #include "dialogs/paraDialog/paradialog.h"
 #include "dialogs/langDialog/languagedialog.h"
 #include "dialogs/langDialog/languagetextbankdialog.h"
+#include "dialogs/urunDialog/urunmanagerdialog.h"
+
 #include "cafecore/languageitem.h"
 #include "global/globalVar.h"
 
@@ -42,11 +44,13 @@ void MainWindow::initAction()
     ui->menubar->addMenu(mUrunMenu.get());
 
 
-    mYeniUrunAction = std::make_unique<QAction>(TR("Yeni Ürün Girişi"));
-    mUrunMenu->addAction(mYeniUrunAction.get());
-
-    mUrunUpdateAction = std::make_unique<QAction>(TR("Ürün Güncelleme"));
-    mUrunMenu->addAction(mUrunUpdateAction.get());
+    mUrunManagerDialogAction = std::make_unique<QAction>(TR("Ürün Yönetimi"));
+    QObject::connect(mUrunManagerDialogAction.get(),&QAction::triggered,[=](const bool triggered){
+        auto mUrunManagerDialog = new Urun::UrunManagerDialog();
+        mUrunManagerDialog->exec();
+        delete mUrunManagerDialog;
+    });
+    mUrunMenu->addAction(mUrunManagerDialogAction.get());
 
     mKategoriManagerList = std::make_unique<QAction>(TR("Kategori Yönetimi"));
     mUrunMenu->addAction(mKategoriManagerList.get());

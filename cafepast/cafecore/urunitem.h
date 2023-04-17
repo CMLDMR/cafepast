@@ -13,6 +13,7 @@ inline const std::string_view Collection{"Urunler"};
 
 inline const std::string_view language{"lang"};
 inline const std::string_view kategoriOid{"kategoriOid"};
+inline const std::string_view urunAdi{"urunadi"};
 
 
 namespace LANG{

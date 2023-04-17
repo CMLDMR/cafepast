@@ -37,7 +37,7 @@ class LanguageManager : public MongoCore::ListItem<LanguageItem>
 public:
     LanguageManager();
 
-    LanguageManager* instance();
+    static LanguageManager* instance();
     virtual void onList( const std::vector<LanguageItem> &mList ) override;
 private:
     static LanguageManager* mLanguageManager;

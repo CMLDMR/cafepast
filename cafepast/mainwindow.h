@@ -38,8 +38,7 @@ private:
     void initAction();
 
     std::unique_ptr<QMenu> mUrunMenu;
-    std::unique_ptr<QAction> mYeniUrunAction;
-    std::unique_ptr<QAction> mUrunUpdateAction;
+    std::unique_ptr<QAction> mUrunManagerDialogAction;
     std::unique_ptr<QAction> mKategoriManagerList;
 
 
