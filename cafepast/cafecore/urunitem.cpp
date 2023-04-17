@@ -11,6 +11,18 @@ UrunItem::UrunItem()
 
 }
 
+UrunItem &UrunItem::setUrunAdi(const std::string &urunAdi)
+{
+    this->append(Key::urunAdi,urunAdi);
+    return *this;
+}
+
+UrunItem &UrunItem::setKategoriOid(const std::string &kategoriOid)
+{
+    this->append(Key::kategoriOid,bsoncxx::oid{kategoriOid});
+    return *this;
+}
+
 UrunItem &UrunItem::addUrun(const UrunLanguage &urun)
 {
     this->pushArray(Key::language.data(),urun.view());
@@ -38,6 +50,15 @@ UrunLanguage UrunItem::getUrun(const std::string &language)
     }else{
         return UrunLanguage();
     }
+}
+
+std::string UrunItem::getUrunAdi() const
+{
+    auto val = this->element( Key::urunAdi.data());
+    if( val ){
+        return val.value().view().get_string().value.data();
+    }
+    return "";
 }
 
 UrunLanguage::UrunLanguage()

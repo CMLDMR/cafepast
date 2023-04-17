@@ -36,6 +36,9 @@ public:
     // QAbstractItemModel interface
 public:
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+
+private:
+    std::vector<Cafe::Urun::UrunItem> mList;
 };
 
 } // namespace Urun

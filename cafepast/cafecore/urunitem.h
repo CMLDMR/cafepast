@@ -41,9 +41,13 @@ class UrunItem : public MongoCore::Item
 public:
     UrunItem();
 
+    UrunItem &setUrunAdi( const std::string &urunAdi );
+    UrunItem &setKategoriOid( const std::string &kategoriOid );
+
     UrunItem &addUrun( const UrunLanguage &urun );
 
     UrunLanguage getUrun( const std::string &language );
+    std::string getUrunAdi() const;
 };
 
 class UrunManager : public MongoCore::ListItem<UrunItem>

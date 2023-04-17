@@ -21,11 +21,14 @@ void Urun::UrunModel::errorOccured(const std::string &errorText)
 
 void Urun::UrunModel::onList(const std::vector<Cafe::Urun::UrunItem> &mList)
 {
+    beginResetModel();
+    this->mList = mList;
+    endResetModel();
 }
 
 QModelIndex Urun::UrunModel::index(int row, int column, const QModelIndex &parent) const
 {
-    return QModelIndex();
+    return createIndex(row,column);
 }
 
 QModelIndex Urun::UrunModel::parent(const QModelIndex &child) const
@@ -35,7 +38,7 @@ QModelIndex Urun::UrunModel::parent(const QModelIndex &child) const
 
 int Urun::UrunModel::rowCount(const QModelIndex &parent) const
 {
-    return 5;
+    return this->mList.size();
 }
 
 int Urun::UrunModel::columnCount(const QModelIndex &parent) const
@@ -45,6 +48,37 @@ int Urun::UrunModel::columnCount(const QModelIndex &parent) const
 
 QVariant Urun::UrunModel::data(const QModelIndex &index, int role) const
 {
+    if( !index.isValid() ){
+        return "invalid index";
+    }
+
+    if( role == Qt::DisplayRole ){
+        if( index.row() >= mList.size() ){
+            return "out of range";
+        }else{
+            switch (index.column()) {
+            case 0:
+                return QString{mList.at(index.row()).getUrunAdi().c_str()};
+                break;
+            case 1:
+                return QString{"mList.at(index.row()).getLang().c_str()"};
+                break;
+            case 2:
+                return QString{"mList.at(index.row()).getDestText().c_str()"};
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+    if( role == Qt::UserRole+1 ){
+        if( index.row() >= mList.size() ){
+            return "out of range";
+        }else{
+            return QString{mList.at(index.row()).oid().value().to_string().c_str()};
+        }
+    }
     return QVariant{};
 }
 

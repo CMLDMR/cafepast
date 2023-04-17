@@ -59,6 +59,10 @@ private:
     Urun::UrunModel* mUrunModel;
     Language::LanguageModel* mLangModel;
     ParaBirimi::ParaItemModel* mParaModel;
+
+private:
+    void updateUrunList();
+
 };
 
 } // namespace Urun

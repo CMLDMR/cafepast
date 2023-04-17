@@ -79,7 +79,15 @@ UrunManagerDialog::UrunManagerDialog()
 
 
 
-
+    QObject::connect(mUrunEkle,&QPushButton::clicked,[=](){
+        Cafe::Urun::UrunItem urunItem;
+        urunItem.setKategoriOid(mKategoriComboBox->currentData(Kategori::KategoriListModel::Role::KategoriOidRole).toString().toStdString());
+        urunItem.setUrunAdi(mYeniUrunAdiLineEdit->text().toStdString());
+        auto ins = this->mUrunModel->InsertItem(urunItem);
+        if( ins.size() ){
+            this->updateUrunList();
+        }
+    });
 
 
 
@@ -90,6 +98,26 @@ UrunManagerDialog::UrunManagerDialog()
 
     });
 
+
+    QObject::connect(mUrunListView,&QTableView::doubleClicked,[=]( const QModelIndex &index){
+        mSelectedUrunOid->setText(mUrunModel->index(index.row(),0,index).data(Qt::UserRole+1).toString());
+    });
+
+
+
+
+    QObject::connect(mKategoriComboBox,&QComboBox::currentIndexChanged,[=](const int &index){
+        this->updateUrunList();
+    });
+    this->updateUrunList();
+}
+
+void UrunManagerDialog::updateUrunList()
+{
+
+    Cafe::Urun::UrunItem filter;
+    filter.setKategoriOid(mKategoriComboBox->currentData(Kategori::KategoriListModel::KategoriOidRole).toString().toStdString());
+    mUrunModel->UpdateList(filter);
 }
 
 } // namespace Urun
