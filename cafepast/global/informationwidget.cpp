@@ -19,7 +19,7 @@ InformationWidget::InformationWidget(QWidget *parent)
     this->setLayout(mMainLayout);
 
     mInformationLabel = new QLabel("information Dialog");
-    mInformationLabel->setFont(QFont("Tahoma",14));
+    mInformationLabel->setFont(QFont("Tahoma",12));
     mMainLayout->addWidget(mInformationLabel,1,Qt::AlignCenter);
 
     this->setWindowFlags(Qt::WindowStaysOnTopHint);
@@ -64,6 +64,7 @@ void InformationWidget::animateWindow()
         mCounter = 0;
         QTimer::singleShot(2500,[=](){
             this->setGeometry(mScreen->geometry().width()/2-this->width()/2,mScreen->geometry().height(),300,100);
+            this->hide();
         });
     }
 }
