@@ -33,9 +33,22 @@ void TabWidget::contextMenuEvent(QContextMenuEvent *event)
 
     for( const auto &kategoriItem : list ){
         auto action = menu.addAction(TR(kategoriItem.getKategoriName().c_str()));
+
         QObject::connect(action,&QAction::triggered,[=](){
-            auto pohacaWidget = new AbstractListWidget(action->text());
-            this->insertTab(0,pohacaWidget,pohacaWidget->tabWidgetName());
+
+            bool exist = false;
+            for( int i = 0 ; i < this->count() ; i++ ){
+                auto text = static_cast<AbstractListWidget*>(this->widget(i));
+                if( action->text() == text->tabWidgetName() ){
+                    exist = true;
+                    break;
+                }
+            }
+            if( !exist ){
+                auto pohacaWidget = new AbstractListWidget(action->text());
+                this->insertTab(0,pohacaWidget,pohacaWidget->tabWidgetName());
+            }
+
         });
     }
 
