@@ -48,16 +48,11 @@ void TabWidget::contextMenuEvent(QContextMenuEvent *event)
                 auto pohacaWidget = new AbstractListWidget(action->text());
                 this->insertTab(0,pohacaWidget,pohacaWidget->tabWidgetName());
             }
-
         });
     }
 
     menu.addAction(TR("Kapat"));
 
-
-
     menu.exec(event->globalPos());
-
-
 
 }

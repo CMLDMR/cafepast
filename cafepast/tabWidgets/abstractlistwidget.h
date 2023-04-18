@@ -9,6 +9,9 @@
 #include <QHBoxLayout>
 #include <QTableView>
 
+#include "model/urunmodel.h"
+#include "cafecore/kategoriitem.h"
+
 class AbstractListWidget : public QWidget
 {
     Q_OBJECT
@@ -28,6 +31,9 @@ private:
 
     QHBoxLayout *mProductListLayout;
     QTableView* mTableListView;
+
+    Cafe::Kategori::KategoriManager* mKategoriManager;
+    Urun::UrunModel* mUrunModel;
 
 };
 
