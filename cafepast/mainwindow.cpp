@@ -9,6 +9,8 @@
 #include "dialogs/langDialog/languagetextbankdialog.h"
 #include "dialogs/urunDialog/urunmanagerdialog.h"
 
+#include "adisyon/adisyonwidget.h"
+
 #include "cafecore/languageitem.h"
 #include "global/globalVar.h"
 
@@ -91,11 +93,16 @@ void MainWindow::initWidget()
 {
 
     mTabWidget = std::make_unique<TabWidget>();
-
+    mTabWidget->setMaximumWidth(300);
     mCentralWidgetLayout = std::make_unique<QHBoxLayout>();
     ui->centralwidget->setLayout(mCentralWidgetLayout.get());
 
     mCentralWidgetLayout->addWidget(mTabWidget.get());
+
+
+    mAdisyonWidget = new Adisyon::AdisyonWidget();
+
+    mCentralWidgetLayout->addWidget(mAdisyonWidget);
 
 
 }

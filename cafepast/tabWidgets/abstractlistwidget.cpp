@@ -26,8 +26,8 @@ AbstractListWidget::AbstractListWidget(const QString &tabWidgetName, QWidget *pa
     mListGroupBox->setFlat(true);
     mListGroupBox->setTitle(mTabWidgetName);
     mListGroupBox->setContentsMargins(0,10,0,0);
-    mListGroupBox->setMaximumWidth(550);
-    mListGroupBox->setMinimumWidth(450);
+//    mListGroupBox->setMaximumWidth(550);
+    mListGroupBox->setMinimumWidth(250);
 
     mTableListView = new QTableView(mListGroupBox);
     mProductListLayout = new QVBoxLayout(mListGroupBox);

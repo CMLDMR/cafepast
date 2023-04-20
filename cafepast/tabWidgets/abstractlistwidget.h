@@ -44,6 +44,7 @@ private:
 
     QComboBox* mCurrentParaBirimiComboBox;
     ParaBirimi::ParaItemModel* mParaModel;
+
 };
 
 #endif // ABSTRACTLISTWIDGET_H

@@ -14,6 +14,10 @@
 
 #include "tabWidgets/tabwidget.h"
 
+namespace Adisyon {
+class AdisyonWidget;
+}
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -54,6 +58,7 @@ private:
     void initWidget();
     std::unique_ptr<TabWidget> mTabWidget;
     std::unique_ptr<QHBoxLayout> mCentralWidgetLayout;
+    Adisyon::AdisyonWidget* mAdisyonWidget;
 
 };
 

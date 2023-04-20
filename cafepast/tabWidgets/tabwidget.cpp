@@ -34,7 +34,7 @@ void TabWidget::contextMenuEvent(QContextMenuEvent *event)
     for( const auto &kategoriItem : list ){
         auto action = menu.addAction(TR(kategoriItem.getKategoriName().c_str()));
 
-        QObject::connect(action,&QAction::triggered,[=](){
+        QObject::connect(action,&QAction::triggered,[=](const bool checked){
 
             bool exist = false;
             for( int i = 0 ; i < this->count() ; i++ ){
