@@ -25,7 +25,7 @@ AbstractListWidget::AbstractListWidget(const QString &tabWidgetName, QWidget *pa
 
     mKategoriManager = new Cafe::Kategori::KategoriManager();
 
-    mUrunModel = new Urun::UrunModel();
+    mUrunModel = new Menu::UrunModel();
 
     mTableListView->setModel(mUrunModel);
 
@@ -41,6 +41,7 @@ AbstractListWidget::AbstractListWidget(const QString &tabWidgetName, QWidget *pa
 
     mTableListView->setSelectionMode(QAbstractItemView::SingleSelection);
     mTableListView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
+
 
 }
 
