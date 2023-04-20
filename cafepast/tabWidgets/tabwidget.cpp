@@ -46,7 +46,8 @@ void TabWidget::contextMenuEvent(QContextMenuEvent *event)
             }
             if( !exist ){
                 auto pohacaWidget = new AbstractListWidget(action->text());
-                this->insertTab(0,pohacaWidget,pohacaWidget->tabWidgetName());
+                this->insertTab(this->count(),pohacaWidget,pohacaWidget->tabWidgetName());
+                this->setCurrentIndex(this->count()-1);
             }
         });
     }
