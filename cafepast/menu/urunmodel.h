@@ -33,12 +33,14 @@ public:
 
 private:
     std::vector<Cafe::Urun::UrunItem> mList;
+    std::string mCurrentParaBirimi;
 
     // QAbstractItemModel interface
 public:
     virtual QModelIndex index(int row, int column, const QModelIndex &parent) const override;
     virtual QModelIndex parent(const QModelIndex &child) const override;
     virtual int columnCount(const QModelIndex &parent) const override;
+    void setCurrentParaBirimi(const std::string &newCurrentParaBirimi);
 };
 
 } // namespace Menu

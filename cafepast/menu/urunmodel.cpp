@@ -8,10 +8,18 @@
 
 namespace Menu {
 
+void UrunModel::setCurrentParaBirimi(const std::string &newCurrentParaBirimi)
+{
+    mCurrentParaBirimi = newCurrentParaBirimi;
+    this->UpdateList();
+}
+
+
+
 UrunModel::UrunModel(QObject *parent)
     : QAbstractItemModel{parent}
 {
-
+    mCurrentParaBirimi = GlobarVar::LocalConfiguration::instance()->getCurrentParaBirimi();
 }
 
 } // namespace Menu
@@ -45,7 +53,7 @@ QVariant Menu::UrunModel::data(const QModelIndex &index, int role) const
             double price = 0 ;
 
             for( const auto &item : uList ){
-                if( item.getParaBirimi() == GlobarVar::LocalConfiguration::instance()->getCurrentParaBirimi() ){
+                if( item.getParaBirimi() == mCurrentParaBirimi ){
                     price = item.getUrunFiyati();
                     break;
                 }

@@ -12,6 +12,13 @@
 #include "menu/urunmodel.h"
 #include "cafecore/kategoriitem.h"
 
+namespace ParaBirimi {
+class ParaItemModel;
+}
+
+class QComboBox;
+class QVBoxLayout;
+
 class AbstractListWidget : public QWidget
 {
     Q_OBJECT
@@ -29,12 +36,14 @@ private:
     QHBoxLayout* mLayout;
     QGroupBox* mListGroupBox;
 
-    QHBoxLayout *mProductListLayout;
+    QVBoxLayout *mProductListLayout;
     QTableView* mTableListView;
 
     Cafe::Kategori::KategoriManager* mKategoriManager;
     Menu::UrunModel* mUrunModel;
 
+    QComboBox* mCurrentParaBirimiComboBox;
+    ParaBirimi::ParaItemModel* mParaModel;
 };
 
 #endif // ABSTRACTLISTWIDGET_H
