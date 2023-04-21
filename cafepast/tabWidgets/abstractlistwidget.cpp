@@ -27,7 +27,7 @@ AbstractListWidget::AbstractListWidget(const QString &tabWidgetName, QWidget *pa
     mListGroupBox->setTitle(mTabWidgetName);
     mListGroupBox->setContentsMargins(0,10,0,0);
 //    mListGroupBox->setMaximumWidth(550);
-    mListGroupBox->setMinimumWidth(250);
+//    mListGroupBox->setMinimumWidth(250);
 
     mTableListView = new QTableView(mListGroupBox);
     mProductListLayout = new QVBoxLayout(mListGroupBox);
@@ -65,7 +65,7 @@ AbstractListWidget::AbstractListWidget(const QString &tabWidgetName, QWidget *pa
         mUrunModel->UpdateList(Cafe::Urun::UrunItem().setKategoriOid(kategoriItem.oid().value().to_string()));
     });
 
-    mLayout->addStretch(1);
+//    mLayout->addStretch(1);
 
     mTableListView->setSelectionMode(QAbstractItemView::SingleSelection);
     mTableListView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);

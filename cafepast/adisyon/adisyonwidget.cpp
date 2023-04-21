@@ -7,6 +7,7 @@ AdisyonWidget::AdisyonWidget(QWidget *parent)
     : QWidget{parent}
 {
 
+
 }
 
 } // namespace Adisyon
