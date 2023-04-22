@@ -14,6 +14,9 @@ class UrunModel : public QAbstractItemModel, public Cafe::Urun::UrunManager
 {
     Q_OBJECT
 public:
+    enum Role{
+        UrunOid = Qt::UserRole+1
+    };
     explicit UrunModel(QObject *parent = nullptr);
 
     // DB interface

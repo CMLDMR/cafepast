@@ -104,6 +104,8 @@ void MainWindow::initWidget()
 
     mCentralWidgetLayout->addWidget(mAdisyonWidget);
 
+    QObject::connect(mTabWidget.get(),&TabWidget::UrunClicked,mAdisyonWidget,&Adisyon::AdisyonWidget::addUrun);
+
 
 }
 

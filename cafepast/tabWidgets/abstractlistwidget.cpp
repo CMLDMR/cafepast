@@ -72,6 +72,9 @@ AbstractListWidget::AbstractListWidget(const QString &tabWidgetName, QWidget *pa
     mTableListView->horizontalHeader()->setStretchLastSection(true);
 
 
+    QObject::connect(mTableListView,&QTableView::doubleClicked,[=]( const QModelIndex &index){
+        emit UrunClicked(index.data(Menu::UrunModel::UrunOid).toString());
+    });
 }
 
 QString AbstractListWidget::tabWidgetName() const

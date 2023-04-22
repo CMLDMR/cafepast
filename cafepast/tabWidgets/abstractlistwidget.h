@@ -28,6 +28,7 @@ public:
     QString tabWidgetName() const;
 
 signals:
+    void UrunClicked( const QString& );
 
 
 private:

@@ -42,6 +42,10 @@ QVariant Menu::UrunModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
+    if( role == Qt::UserRole+1 ){
+        return QVariant{mList[index.row()].oid().value().to_string().c_str()};
+    }
+
     if( role == Qt::DisplayRole ){
         if( index.column()  == 0 ){
             return QVariant{mList[index.row()].getUrunAdi().c_str()};
