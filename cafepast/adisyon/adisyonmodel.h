@@ -14,9 +14,14 @@ class AdisyonModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
+    enum Role{
+        Oid = Qt::UserRole+1
+    };
     explicit AdisyonModel(QObject *parent = nullptr);
 
     void addUrun( const Cafe::Urun::UrunItem &urunItem );
+    void reduceUrun( const Cafe::Urun::UrunItem &urunItem );
+    void changeUrun( const Cafe::Urun::UrunItem &urunItem , const double &adet);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -29,12 +34,15 @@ public:
 
     void setCurrentParaBirimi(const QString &newCurrentParaBirimi);
 
+    double getTotalPrice() const;
+
 private:
 
     Adisyon::AdisyonListItem* mUrunList;
     Adisyon::AdisyonListManager* mAdisyonListManager;
 
     QString mCurrentParaBirimi;
+
 };
 
 } // namespace Adisyon

@@ -5,6 +5,8 @@
 #include "cafecore/urunitem.h"
 #include "model/paraitemmodel.h"
 #include "global/globalVar.h"
+#include "dialogs/adisyonDialog/changedialog.h"
+#include "global/informationwidget.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -14,6 +16,7 @@
 #include <QLabel>
 #include <QScrollArea>
 #include <QComboBox>
+#include <QDoubleSpinBox>
 
 namespace Adisyon {
 
@@ -37,6 +40,22 @@ AdisyonWidget::AdisyonWidget(QWidget *parent)
 
     mAdisyonModel = new Adisyon::AdisyonModel();
     mAdisyonView->setModel(mAdisyonModel);
+
+    mControlBirimiLayout = new QHBoxLayout();
+    mSayiArtirBtn = new QPushButton(TR("Sayı Artır++"));
+    mSayiAzaltBtn = new QPushButton(TR("Sayı Azalt--"));
+    mSayiDegisBtn = new QPushButton(TR("Sayı Degiştir"));
+
+    mControlBirimiLayout->addWidget(mSayiArtirBtn);
+    mControlBirimiLayout->addWidget(mSayiAzaltBtn);
+    mControlBirimiLayout->addWidget(mSayiDegisBtn);
+
+    mAdisyonListLayout->addLayout(mControlBirimiLayout);
+
+
+    mTotalFiyatLabel = new QLabel(TR("Toplam Fiyat"));
+    mAdisyonListLayout->addWidget(mTotalFiyatLabel,0,Qt::AlignmentFlag::AlignJustify);
+    mTotalFiyatLabel->setFont(QFont("Tahoma",15));
 
     mParaBirimiLayout = new QHBoxLayout();
     mParaBirimiDegisLabel = new QLabel(TR("Para Birimi"));
@@ -90,7 +109,17 @@ AdisyonWidget::AdisyonWidget(QWidget *parent)
     mAdisyonModel->setCurrentParaBirimi(mParaBirimiComboBox->currentText());
     QObject::connect(mParaBirimiComboBox,&QComboBox::currentIndexChanged,[=](const int index){
         mAdisyonModel->setCurrentParaBirimi(mParaBirimiComboBox->itemText(index));
+        mTotalFiyatLabel->setText("<b>"+QString(TR("Toplam Fiyat"))+" :"+QString::number(mAdisyonModel->getTotalPrice()) + " " + mParaBirimiComboBox->currentText()+"</b>");
     });
+
+    mAdisyonView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
+    mAdisyonView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
+    mAdisyonView->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    QObject::connect(mSayiArtirBtn,&QPushButton::clicked,this,&AdisyonWidget::incrementUrun);
+    QObject::connect(mSayiAzaltBtn,&QPushButton::clicked,this,&AdisyonWidget::decrementUrun);
+    QObject::connect(mSayiDegisBtn,&QPushButton::clicked,this,&AdisyonWidget::changeUrunAdet);
+
 }
 
 void AdisyonWidget::addUrun(const QString &urunOid)
@@ -100,6 +129,78 @@ void AdisyonWidget::addUrun(const QString &urunOid)
     auto urunItem = mUrunManager->FindOneItem(filter);
 
     mAdisyonModel->addUrun(urunItem);
+
+    mTotalFiyatLabel->setText("<b>"+QString(TR("Toplam Fiyat"))+" :"+
+                              QString::number(mAdisyonModel->getTotalPrice()) + " " +
+                              mParaBirimiComboBox->currentText()+"</b>");
+}
+
+void AdisyonWidget::reduceUrun(const QString &urunOid)
+{
+    Cafe::Urun::UrunItem filter;
+    filter.setOid(urunOid.toStdString());
+    auto urunItem = mUrunManager->FindOneItem(filter);
+
+    mAdisyonModel->reduceUrun(urunItem);
+
+    mTotalFiyatLabel->setText("<b>"+QString(TR("Toplam Fiyat"))+" :"+
+                              QString::number(mAdisyonModel->getTotalPrice()) + " " +
+                              mParaBirimiComboBox->currentText()+"</b>");
+}
+
+void AdisyonWidget::incrementUrun()
+{
+    auto index = mAdisyonView->currentIndex();
+    if( index.isValid() ){
+        this->addUrun(mAdisyonModel->index(index.row(),0).data(AdisyonModel::Oid).toString());
+        mAdisyonView->setCurrentIndex(index);
+    }
+}
+
+void AdisyonWidget::decrementUrun()
+{
+    auto index = mAdisyonView->currentIndex();
+    if( index.isValid() ){
+        this->reduceUrun(mAdisyonModel->index(index.row(),0).data(AdisyonModel::Oid).toString());
+        mAdisyonView->setCurrentIndex(index);
+    }
+}
+
+void AdisyonWidget::changeUrunAdet()
+{
+    auto index = mAdisyonView->currentIndex();
+    if( index.isValid() ){
+        auto mDialog = new Adisyon::ChangeDialog(mAdisyonModel->index(index.row(),2).data(Qt::DisplayRole).toString().toDouble(),
+                                                 mAdisyonModel->index(index.row(),0).data(Qt::DisplayRole).toString());
+
+        QObject::connect(mDialog->acceptBtn(),&QPushButton::clicked,[=](){
+
+            auto urunOid = mAdisyonModel->index(index.row(),0).data(AdisyonModel::Oid).toString();
+            Cafe::Urun::UrunItem filter;
+            filter.setOid(urunOid.toStdString());
+            auto urunItem = mUrunManager->FindOneItem(filter);
+
+            mAdisyonModel->changeUrun(urunItem,mDialog->adetDoubleSpinBox()->value());
+
+            mTotalFiyatLabel->setText("<b>"+QString(TR("Toplam Fiyat"))+" :"+
+                                      QString::number(mAdisyonModel->getTotalPrice()) + " " +
+                                      mParaBirimiComboBox->currentText()+"</b>");
+
+
+            mDialog->close();
+            delete mDialog;
+        });
+
+        QObject::connect(mDialog->rejectBtn(),&QPushButton::clicked,[=](){
+            mDialog->close();
+            delete mDialog;
+        });
+
+        mDialog->exec();
+        mAdisyonView->setCurrentIndex(index);
+    }else{
+        GlobarVar::InformationWidget::instance()->setInformation("Lütfen Listeden Ürün Seçiniz",GlobarVar::InformationWidget::Warn);
+    }
 }
 
 } // namespace Adisyon
