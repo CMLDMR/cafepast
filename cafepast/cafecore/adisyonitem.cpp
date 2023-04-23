@@ -61,13 +61,71 @@ void AdisyonListItem::addAdisyon(const AdisyonItem &item)
             AdisyonItem item_;
             item_.setDocumentView(__item.get_document().view());
             if( item_.getUrun().getUrunAdi() == item.getUrun().getUrunAdi() ){
-                item_.setAdet(item_.getAdet()+item.getAdet());
+                if( (item_.getAdet()+item.getAdet()) >= 0 ){
+                    item_.setAdet(item_.getAdet()+item.getAdet());
+                }
                 exist = true;
             }
             list.push_back(item_);
         }
         if( !exist ){
             list.push_back(item);
+        }
+
+        this->removeElement(Key::urunItem);
+        for( auto &adisyonItem : list ){
+            this->pushArray(Key::urunItem.data(),adisyonItem.view());
+        }
+    }else{
+        this->pushArray(Key::urunItem.data(),item.view());
+    }
+}
+
+void AdisyonListItem::changeAdisyon(const AdisyonItem &item)
+{
+    std::vector<AdisyonItem> list;
+    auto val = this->element(Key::urunItem.data());
+    if( val ){
+        auto ar = val.value().view().get_array().value;
+        bool exist = false;
+        for( const auto &__item : ar ){
+            AdisyonItem item_;
+            item_.setDocumentView(__item.get_document().view());
+            if( item_.getUrun().getUrunAdi() == item.getUrun().getUrunAdi() ){
+                if( item.getAdet() >= 0 ){
+                    item_.setAdet(item.getAdet());
+                }
+                exist = true;
+            }
+            list.push_back(item_);
+        }
+        if( !exist ){
+            list.push_back(item);
+        }
+
+        this->removeElement(Key::urunItem);
+        for( auto &adisyonItem : list ){
+            this->pushArray(Key::urunItem.data(),adisyonItem.view());
+        }
+    }else{
+        this->pushArray(Key::urunItem.data(),item.view());
+    }
+}
+
+void AdisyonListItem::removeAdisyon(const AdisyonItem &item)
+{
+    std::vector<AdisyonItem> list;
+    auto val = this->element(Key::urunItem.data());
+    if( val ){
+        auto ar = val.value().view().get_array().value;
+        for( const auto &__item : ar ){
+            AdisyonItem item_;
+            item_.setDocumentView(__item.get_document().view());
+            if( item_.getUrun().oid() == item.getUrun().oid() ){
+
+            }else{
+                list.push_back(item_);
+            }
         }
 
         this->removeElement(Key::urunItem);

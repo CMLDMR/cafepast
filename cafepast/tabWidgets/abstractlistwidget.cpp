@@ -6,6 +6,7 @@
 #include "global/globalVar.h"
 
 #include "model/paraitemmodel.h"
+#include "cafecore/languageitem.h"
 
 #include <QComboBox>
 #include <QVBoxLayout>
@@ -24,7 +25,7 @@ AbstractListWidget::AbstractListWidget(const QString &tabWidgetName, QWidget *pa
 
     mListGroupBox = new QGroupBox(this);
     mListGroupBox->setFlat(true);
-    mListGroupBox->setTitle(mTabWidgetName);
+    mListGroupBox->setTitle(TR(mTabWidgetName.toStdString()));
     mListGroupBox->setContentsMargins(0,10,0,0);
 //    mListGroupBox->setMaximumWidth(550);
 //    mListGroupBox->setMinimumWidth(250);
@@ -70,6 +71,7 @@ AbstractListWidget::AbstractListWidget(const QString &tabWidgetName, QWidget *pa
     mTableListView->setSelectionMode(QAbstractItemView::SingleSelection);
     mTableListView->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
     mTableListView->horizontalHeader()->setStretchLastSection(true);
+    mTableListView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
 
 
     QObject::connect(mTableListView,&QTableView::doubleClicked,[=]( const QModelIndex &index){

@@ -27,6 +27,34 @@ void AdisyonModel::addUrun(const Cafe::Urun::UrunItem &urunItem)
 
 }
 
+void AdisyonModel::reduceUrun(const Cafe::Urun::UrunItem &urunItem)
+{
+
+    AdisyonItem item;
+    item.setAdet(-1);
+    item.setUrun(urunItem);
+    mUrunList->addAdisyon(item);
+    endResetModel();
+}
+
+void AdisyonModel::changeUrun(const Cafe::Urun::UrunItem &urunItem, const double &adet)
+{
+    AdisyonItem item;
+    item.setAdet(adet);
+    item.setUrun(urunItem);
+    mUrunList->changeAdisyon(item);
+    endResetModel();
+}
+
+void AdisyonModel::removeUrun(const Cafe::Urun::UrunItem &urunItem)
+{
+    AdisyonItem item;
+    item.setAdet(0);
+    item.setUrun(urunItem);
+    mUrunList->removeAdisyon(item);
+    endResetModel();
+}
+
 QVariant AdisyonModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)
@@ -75,7 +103,7 @@ QVariant AdisyonModel::data(const QModelIndex &index, int role) const
 
         switch (index.column()) {
         case 0:
-            return mUrunList->adisyon(index.row()).getUrun().getUrunAdi().c_str();
+            return TR(mUrunList->adisyon(index.row()).getUrun().getUrunAdi().c_str());
             break;
         case 1:
             return mUrunList->adisyon(index.row()).getUrun().getUrun(mCurrentParaBirimi.toStdString()).getUrunFiyati();
@@ -83,10 +111,17 @@ QVariant AdisyonModel::data(const QModelIndex &index, int role) const
         case 2:
             return mUrunList->adisyon(index.row()).getAdet();
             break;
+        case 3:
+            return mUrunList->adisyon(index.row()).getAdet()*mUrunList->adisyon(index.row()).getUrun().getUrun(mCurrentParaBirimi.toStdString()).getUrunFiyati();
+            break;
         default:
             break;
         }
 
+    }
+
+    if( role == Role::Oid ){
+        return mUrunList->adisyon(index.row()).getUrun().oid().value().to_string().c_str();
     }
 
     // FIXME: Implement me!
@@ -98,6 +133,16 @@ void AdisyonModel::setCurrentParaBirimi(const QString &newCurrentParaBirimi)
     beginResetModel();
     mCurrentParaBirimi = newCurrentParaBirimi;
     endResetModel();
+}
+
+double AdisyonModel::getTotalPrice() const
+{
+
+    double totalPrice = 0;
+    for( int i = 0 ; i < this->rowCount() ; i++ ){
+        totalPrice += this->index(i,1).data(Qt::DisplayRole).toDouble() * this->index(i,2).data(Qt::DisplayRole).toDouble();
+    }
+    return totalPrice;
 }
 
 } // namespace Adisyon

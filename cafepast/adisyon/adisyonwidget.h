@@ -38,6 +38,7 @@ signals:
 
 public slots:
     void addUrun( const QString &urunOid );
+    void reduceUrun( const QString &urunOid );
 
 
 private:
@@ -49,6 +50,14 @@ private:
     QTableView* mAdisyonView;
     AdisyonModel* mAdisyonModel;
     QPushButton* mSilSelectedBtn;
+
+    QHBoxLayout* mControlBirimiLayout;
+    QPushButton* mSayiArtirBtn;
+    QPushButton* mSayiAzaltBtn;
+    QPushButton* mSayiDegisBtn;
+
+    QLabel* mTotalFiyatLabel;
+
     QHBoxLayout* mParaBirimiLayout;
     QLabel* mParaBirimiDegisLabel;
     QComboBox* mParaBirimiComboBox;
@@ -59,10 +68,21 @@ private:
     QLabel* mAdisyonPreviewTitle;
     QScrollArea* mAdisyonPreviewScrollArea;
     QLabel* mAdisyonPreviewLabel;
-    QImage* mAdisyonPreviwImage;
+    QImage* mAdisyonPreviwImage{nullptr};
     QPushButton* mAdisyonPreviewPrintBtn;
 
     Cafe::Urun::UrunManager* mUrunManager;
+
+
+    void paintAdisyon();
+
+private slots:
+    void incrementUrun();
+    void decrementUrun();
+    void changeUrunAdet();
+    void removeUrun();
+
+
 
 };
 

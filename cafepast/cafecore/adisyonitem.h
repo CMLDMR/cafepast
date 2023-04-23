@@ -42,6 +42,8 @@ public:
     AdisyonListItem();
 
     void addAdisyon( const AdisyonItem &item );
+    void changeAdisyon( const AdisyonItem &item );
+    void removeAdisyon( const AdisyonItem &item );
 
     int adisyonSize() const;
 
