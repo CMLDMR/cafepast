@@ -13,6 +13,9 @@ public:
     TabWidget();
     virtual ~TabWidget();
 
+signals:
+    void UrunClicked( const QString &);
+
     // QWidget interface
 protected:
     virtual void contextMenuEvent(QContextMenuEvent *event) override;

@@ -12,8 +12,12 @@
 #include <QTabWidget>
 #include <QHBoxLayout>
 
-#include "global/globalVar.h"
 #include "tabWidgets/tabwidget.h"
+
+namespace Adisyon {
+class AdisyonWidget;
+}
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -38,14 +42,14 @@ private:
     void initAction();
 
     std::unique_ptr<QMenu> mUrunMenu;
-    std::unique_ptr<QAction> mYeniUrunAction;
-    std::unique_ptr<QAction> mUrunUpdateAction;
+    std::unique_ptr<QAction> mUrunManagerDialogAction;
     std::unique_ptr<QAction> mKategoriManagerList;
 
 
     std::unique_ptr<QMenu> mAyarlarMenu;
     std::unique_ptr<QAction> mParaBirimiAction;
     std::unique_ptr<QAction> mDilSecimiAction;
+    std::unique_ptr<QAction> mTextManagerAction;
 
     QTranslator mEnglishTranslator;
     QTranslator mMakedonTranslator;
@@ -54,6 +58,7 @@ private:
     void initWidget();
     std::unique_ptr<TabWidget> mTabWidget;
     std::unique_ptr<QHBoxLayout> mCentralWidgetLayout;
+    Adisyon::AdisyonWidget* mAdisyonWidget;
 
 };
 

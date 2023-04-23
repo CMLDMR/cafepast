@@ -13,6 +13,9 @@ namespace Kategori {
 class KategoriListModel : public QAbstractListModel, public Cafe::Kategori::KategoriManager
 {
 public:
+    enum Role{
+        KategoriOidRole = Qt::UserRole+1
+    };
     explicit KategoriListModel(QObject *parent = nullptr);
 
     // QAbstractItemModel interface

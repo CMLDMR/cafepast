@@ -40,4 +40,79 @@ GlobalDB *GlobalDB::global() const
     return mGlobal;
 }
 
+
+std::once_flag flag_config;
+GlobarVar::LocalConfiguration* GlobarVar::LocalConfiguration::mLocalConfiguration = nullptr;
+
+
+
+LocalConfiguration::LocalConfiguration()
+{
+    qDebug() << "Configuration Loaded: " << this->loadConfigurationFile();
+}
+
+LocalConfiguration *LocalConfiguration::instance()
+{
+    std::call_once(flag_config, [=](){
+        mLocalConfiguration = new LocalConfiguration();
+    });
+    return mLocalConfiguration;
+}
+
+bool LocalConfiguration::loadConfigurationFile()
+{
+    QFile file("configure.dat");
+    if( file.open(QIODevice::ReadOnly) ){
+        auto ar = file.readAll();
+        mConfigurations = QJsonDocument::fromJson(ar).object();
+        file.close();
+        mIsLoaded = true;
+        return true;
+    }else{
+        mIsLoaded = false;
+        return false;
+    }
+}
+
+bool LocalConfiguration::saveConfigurationFile()
+{
+    QFile file("configure.dat");
+    if( file.open(QIODevice::ReadWrite) ){
+        file.write(QJsonDocument(mConfigurations).toJson());
+        file.close();
+        return true;
+    }else{
+        return false;
+    }
+}
+
+void LocalConfiguration::setCurrentParaBirimi(const std::string &paraBirimi)
+{
+    mConfigurations.insert("paraBirimi",paraBirimi.data());
+    this->saveConfigurationFile();
+}
+
+std::string LocalConfiguration::getCurrentParaBirimi() const
+{
+    auto val = mConfigurations.value("paraBirimi");
+    return val.toString().toStdString();
+}
+
+void LocalConfiguration::setCurrentLang(const std::string &langShortName)
+{
+    mConfigurations.insert("language",langShortName.data());
+    this->saveConfigurationFile();
+}
+
+std::string LocalConfiguration::getCurrentLang() const
+{
+    auto val = mConfigurations.value("language");
+    return val.toString().toStdString();
+}
+
+bool LocalConfiguration::isLoaded() const
+{
+    return mIsLoaded;
+}
+
 }

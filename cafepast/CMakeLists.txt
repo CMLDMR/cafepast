@@ -17,8 +17,8 @@ set(mongocxx_DIR ../../mongocore/lib/cmake/mongocxx-3.7.0)
 include_directories("${CMAKE_SOURCE_DIR}")
 
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Gui)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools Gui)
 #qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} language_en.ts language_mk.ts)
 #configure_file(${QM_FILES} ${CMAKE_SOURCE_DIR} COPYONLY)
 
@@ -62,7 +62,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(cafepast PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(cafepast PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Gui)
 
 target_include_directories(cafepast PUBLIC "../../mongocore/include")
 target_link_directories(cafepast PUBLIC "../../mongocore/lib")

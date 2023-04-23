@@ -33,8 +33,8 @@ public:
  class KategoriManager : public MongoCore::ListItem<KategoriItem>
 {
 public:
-    KategoriManager();
-
+    explicit KategoriManager();
+    virtual ~KategoriManager(){}
 
     virtual void onList( const std::vector<KategoriItem> &mList ) override;
 };
