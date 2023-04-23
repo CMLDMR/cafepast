@@ -22,6 +22,7 @@ public:
     void addUrun( const Cafe::Urun::UrunItem &urunItem );
     void reduceUrun( const Cafe::Urun::UrunItem &urunItem );
     void changeUrun( const Cafe::Urun::UrunItem &urunItem , const double &adet);
+    void removeUrun( const Cafe::Urun::UrunItem &urunItem );
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;

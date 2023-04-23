@@ -7,6 +7,7 @@
 #include "global/globalVar.h"
 #include "dialogs/adisyonDialog/changedialog.h"
 #include "global/informationwidget.h"
+#include "dialogs/askdialog.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -119,6 +120,7 @@ AdisyonWidget::AdisyonWidget(QWidget *parent)
     QObject::connect(mSayiArtirBtn,&QPushButton::clicked,this,&AdisyonWidget::incrementUrun);
     QObject::connect(mSayiAzaltBtn,&QPushButton::clicked,this,&AdisyonWidget::decrementUrun);
     QObject::connect(mSayiDegisBtn,&QPushButton::clicked,this,&AdisyonWidget::changeUrunAdet);
+    QObject::connect(mSilSelectedBtn,&QPushButton::clicked,this,&AdisyonWidget::removeUrun);
 
 }
 
@@ -198,6 +200,25 @@ void AdisyonWidget::changeUrunAdet()
 
         mDialog->exec();
         mAdisyonView->setCurrentIndex(index);
+    }else{
+        GlobarVar::InformationWidget::instance()->setInformation("Lütfen Listeden Ürün Seçiniz",GlobarVar::InformationWidget::Warn);
+    }
+}
+
+void AdisyonWidget::removeUrun()
+{
+    auto index = mAdisyonView->currentIndex();
+    if( index.isValid() ){
+        auto mDialog = GlobarVar::AskDialog::askQuestion("Silmek İstediğinize Eminsiniz?");
+        if( mDialog->status() == GlobarVar::AskDialog::YES ){
+            auto urunOid = mAdisyonModel->index(index.row(),0).data(AdisyonModel::Oid).toString();
+            Cafe::Urun::UrunItem filter;
+            filter.setOid(urunOid.toStdString());
+            auto urunItem = mUrunManager->FindOneItem(filter);
+            mAdisyonModel->removeUrun(filter);
+        }
+
+        delete mDialog;
     }else{
         GlobarVar::InformationWidget::instance()->setInformation("Lütfen Listeden Ürün Seçiniz",GlobarVar::InformationWidget::Warn);
     }

@@ -121,7 +121,7 @@ void AdisyonListItem::removeAdisyon(const AdisyonItem &item)
         for( const auto &__item : ar ){
             AdisyonItem item_;
             item_.setDocumentView(__item.get_document().view());
-            if( item_.getUrun().getUrunAdi() == item.getUrun().getUrunAdi() ){
+            if( item_.getUrun().oid() == item.getUrun().oid() ){
 
             }else{
                 list.push_back(item_);

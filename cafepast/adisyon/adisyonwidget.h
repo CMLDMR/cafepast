@@ -77,6 +77,7 @@ private slots:
     void incrementUrun();
     void decrementUrun();
     void changeUrunAdet();
+    void removeUrun();
 
 };
 

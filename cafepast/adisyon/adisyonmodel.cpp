@@ -46,6 +46,15 @@ void AdisyonModel::changeUrun(const Cafe::Urun::UrunItem &urunItem, const double
     endResetModel();
 }
 
+void AdisyonModel::removeUrun(const Cafe::Urun::UrunItem &urunItem)
+{
+    AdisyonItem item;
+    item.setAdet(0);
+    item.setUrun(urunItem);
+    mUrunList->removeAdisyon(item);
+    endResetModel();
+}
+
 QVariant AdisyonModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole)
