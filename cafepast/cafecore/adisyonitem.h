@@ -6,6 +6,8 @@
 #include <mongocore/listitem.h>
 #include "urunitem.h"
 
+#include <optional>
+
 namespace Adisyon {
 
 namespace Key{
@@ -45,6 +47,7 @@ public:
 
     AdisyonItem operator[](const int index);
     AdisyonItem adisyon(const int index);
+    std::optional<AdisyonItem> adisyon(const std::string urunName );
 
 };
 

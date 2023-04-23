@@ -52,7 +52,31 @@ AdisyonListItem::AdisyonListItem()
 
 void AdisyonListItem::addAdisyon(const AdisyonItem &item)
 {
-    this->pushArray(Key::urunItem.data(),item.view());
+    std::vector<AdisyonItem> list;
+    auto val = this->element(Key::urunItem.data());
+    if( val ){
+        auto ar = val.value().view().get_array().value;
+        bool exist = false;
+        for( const auto &__item : ar ){
+            AdisyonItem item_;
+            item_.setDocumentView(__item.get_document().view());
+            if( item_.getUrun().getUrunAdi() == item.getUrun().getUrunAdi() ){
+                item_.setAdet(item_.getAdet()+item.getAdet());
+                exist = true;
+            }
+            list.push_back(item_);
+        }
+        if( !exist ){
+            list.push_back(item);
+        }
+
+        this->removeElement(Key::urunItem);
+        for( auto &adisyonItem : list ){
+            this->pushArray(Key::urunItem.data(),adisyonItem.view());
+        }
+    }else{
+        this->pushArray(Key::urunItem.data(),item.view());
+    }
 }
 
 int AdisyonListItem::adisyonSize() const
@@ -89,6 +113,26 @@ AdisyonItem AdisyonListItem::adisyon(const int index)
         return item_;
     }
     return AdisyonItem();
+}
+
+std::optional<AdisyonItem> AdisyonListItem::adisyon(const std::string urunName)
+{
+    AdisyonItem item_;
+    auto val = this->element(Key::urunItem.data());
+    if( val ){
+        auto ar = val.value().view().get_array().value;
+        for( const auto &__item : ar ){
+            item_.setDocumentView(__item.get_document().view());
+            if( item_.getUrun().getUrunAdi() == urunName ){
+
+                break;
+            }
+        }
+        if( !item_.view().empty() ){
+            return item_;
+        }
+    }
+    return std::nullopt;
 }
 
 AdisyonListManager::AdisyonListManager()
