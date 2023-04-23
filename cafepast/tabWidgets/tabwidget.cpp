@@ -33,6 +33,7 @@ void TabWidget::contextMenuEvent(QContextMenuEvent *event)
 
     for( const auto &kategoriItem : list ){
         auto action = menu.addAction(TR(kategoriItem.getKategoriName().c_str()));
+        action->setData(kategoriItem.getKategoriName().c_str());
 
         QObject::connect(action,&QAction::triggered,[=](const bool checked){
 
@@ -45,9 +46,9 @@ void TabWidget::contextMenuEvent(QContextMenuEvent *event)
                 }
             }
             if( !exist ){
-                auto pohacaWidget = new AbstractListWidget(action->text());
+                auto pohacaWidget = new AbstractListWidget(action->data().toString());
                 QObject::connect(pohacaWidget,&AbstractListWidget::UrunClicked,this,&TabWidget::UrunClicked);
-                this->insertTab(this->count(),pohacaWidget,pohacaWidget->tabWidgetName());
+                this->insertTab(this->count(),pohacaWidget,TR(pohacaWidget->tabWidgetName().toStdString()));
                 this->setCurrentIndex(this->count()-1);
             }
         });

@@ -103,7 +103,7 @@ QVariant AdisyonModel::data(const QModelIndex &index, int role) const
 
         switch (index.column()) {
         case 0:
-            return mUrunList->adisyon(index.row()).getUrun().getUrunAdi().c_str();
+            return TR(mUrunList->adisyon(index.row()).getUrun().getUrunAdi().c_str());
             break;
         case 1:
             return mUrunList->adisyon(index.row()).getUrun().getUrun(mCurrentParaBirimi.toStdString()).getUrunFiyati();

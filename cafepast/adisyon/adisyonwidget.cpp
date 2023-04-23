@@ -18,6 +18,7 @@
 #include <QScrollArea>
 #include <QComboBox>
 #include <QDoubleSpinBox>
+#include <QPainter>
 
 namespace Adisyon {
 
@@ -45,7 +46,7 @@ AdisyonWidget::AdisyonWidget(QWidget *parent)
     mControlBirimiLayout = new QHBoxLayout();
     mSayiArtirBtn = new QPushButton(TR("Sayı Artır++"));
     mSayiAzaltBtn = new QPushButton(TR("Sayı Azalt--"));
-    mSayiDegisBtn = new QPushButton(TR("Sayı Degiştir"));
+    mSayiDegisBtn = new QPushButton(TR("Sayı Değiştir"));
 
     mControlBirimiLayout->addWidget(mSayiArtirBtn);
     mControlBirimiLayout->addWidget(mSayiAzaltBtn);
@@ -73,7 +74,7 @@ AdisyonWidget::AdisyonWidget(QWidget *parent)
         }
     }
 
-    mSilSelectedBtn = new QPushButton("Sil");
+    mSilSelectedBtn = new QPushButton(TR("Sil"));
     mAdisyonListLayout->addWidget(mSilSelectedBtn);
 
 
@@ -91,16 +92,16 @@ AdisyonWidget::AdisyonWidget(QWidget *parent)
     mAdisyonPreviewLayout->addWidget(mAdisyonPreviewScrollArea);
     mAdisyonPreviewScrollArea->setBackgroundRole(QPalette::Dark);
 
-    mAdisyonPreviewLabel = new QLabel("sdfg");
+    mAdisyonPreviewLabel = new QLabel(TR("Adisyon"));
     mAdisyonPreviewLabel->setGeometry(0,0,350,1000);
     mAdisyonPreviewScrollArea->setWidget(mAdisyonPreviewLabel);
 
-    mAdisyonPreviwImage = new QImage("adisyon.jpg");
-    if( mAdisyonPreviwImage->load("adisyon.jpg") ){
-        *mAdisyonPreviwImage = mAdisyonPreviwImage->scaledToWidth(350);
-        mAdisyonPreviewLabel->setGeometry(0,0,350,mAdisyonPreviwImage->height());
-        mAdisyonPreviewLabel->setPixmap(QPixmap::fromImage(*mAdisyonPreviwImage));
-    }
+//    mAdisyonPreviwImage = new QImage("adisyon.jpg");
+//    if( mAdisyonPreviwImage->load("adisyon.jpg") ){
+//        *mAdisyonPreviwImage = mAdisyonPreviwImage->scaledToWidth(350);
+//        mAdisyonPreviewLabel->setGeometry(0,0,350,mAdisyonPreviwImage->height());
+//        mAdisyonPreviewLabel->setPixmap(QPixmap::fromImage(*mAdisyonPreviwImage));
+//    }
 
     mAdisyonPreviewPrintBtn = new QPushButton(TR("Yazdır"));
                               mAdisyonPreviewLayout->addWidget(mAdisyonPreviewPrintBtn);
@@ -110,7 +111,9 @@ AdisyonWidget::AdisyonWidget(QWidget *parent)
     mAdisyonModel->setCurrentParaBirimi(mParaBirimiComboBox->currentText());
     QObject::connect(mParaBirimiComboBox,&QComboBox::currentIndexChanged,[=](const int index){
         mAdisyonModel->setCurrentParaBirimi(mParaBirimiComboBox->itemText(index));
-        mTotalFiyatLabel->setText("<b>"+QString(TR("Toplam Fiyat"))+" :"+QString::number(mAdisyonModel->getTotalPrice()) + " " + mParaBirimiComboBox->currentText()+"</b>");
+        mTotalFiyatLabel->setText("<b>"+QString(TR("Toplam Tutar"))+" :"+QString::number(mAdisyonModel->getTotalPrice()) + " " + mParaBirimiComboBox->currentText()+"</b>");
+        this->paintAdisyon();
+
     });
 
     mAdisyonView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
@@ -122,6 +125,8 @@ AdisyonWidget::AdisyonWidget(QWidget *parent)
     QObject::connect(mSayiDegisBtn,&QPushButton::clicked,this,&AdisyonWidget::changeUrunAdet);
     QObject::connect(mSilSelectedBtn,&QPushButton::clicked,this,&AdisyonWidget::removeUrun);
 
+    paintAdisyon();
+
 }
 
 void AdisyonWidget::addUrun(const QString &urunOid)
@@ -132,9 +137,11 @@ void AdisyonWidget::addUrun(const QString &urunOid)
 
     mAdisyonModel->addUrun(urunItem);
 
-    mTotalFiyatLabel->setText("<b>"+QString(TR("Toplam Fiyat"))+" :"+
+    mTotalFiyatLabel->setText("<b>"+QString(TR("Toplam Tutar"))+" :"+
                               QString::number(mAdisyonModel->getTotalPrice()) + " " +
                               mParaBirimiComboBox->currentText()+"</b>");
+
+    this->paintAdisyon();
 }
 
 void AdisyonWidget::reduceUrun(const QString &urunOid)
@@ -145,9 +152,85 @@ void AdisyonWidget::reduceUrun(const QString &urunOid)
 
     mAdisyonModel->reduceUrun(urunItem);
 
-    mTotalFiyatLabel->setText("<b>"+QString(TR("Toplam Fiyat"))+" :"+
+    mTotalFiyatLabel->setText("<b>"+QString(TR("Toplam Tutar"))+" :"+
                               QString::number(mAdisyonModel->getTotalPrice()) + " " +
                               mParaBirimiComboBox->currentText()+"</b>");
+        this->paintAdisyon();
+}
+
+void AdisyonWidget::paintAdisyon()
+{
+
+        int heightPix = 200;
+
+        for( int i = 0 ; i < mAdisyonModel->rowCount() ; i++ ){
+            heightPix += 20;
+        }
+
+
+    if( mAdisyonPreviwImage ){
+        delete mAdisyonPreviwImage;
+        mAdisyonPreviwImage = new QImage(350,heightPix,QImage::Format_RGB888);
+    }else{
+        mAdisyonPreviwImage = new QImage(350,heightPix,QImage::Format_RGB888);
+    }
+
+
+    mAdisyonPreviwImage->fill(QColor(Qt::GlobalColor::white));
+
+    QPainter painter(mAdisyonPreviwImage);
+
+    auto font = painter.font();
+
+    painter.drawRect(10,10,330,50);
+
+    painter.setFont(QFont("Tahoma",18));
+
+    painter.drawText(80,40,"Cafe & Pastane Adı");
+
+        painter.setFont(font);
+    painter.drawText(20,75,QDate::currentDate().toString("dd/MM/yyyy"));
+        painter.drawText(300,75,QTime::currentTime().toString("hh:mm"));
+
+
+    painter.setFont(QFont("Tahoma",12));
+    painter.drawText(125,100,TR("Siparişler"));
+        painter.setFont(font);
+
+
+        painter.drawText(20,130,TR("Menü"));
+        painter.drawText(180,130,TR("Adet"));
+        painter.drawText(270,130,TR("Fiyat"));
+        painter.drawLine(20,135,330,135);
+
+
+        double mTotalPrice = 0;
+    int lastYPos = 135;
+    for( int i = 0 ; i < mAdisyonModel->rowCount() ; i++ ){
+        painter.drawText(20,i*20+155,mAdisyonModel->index(i,0).data(Qt::DisplayRole).toString());
+        painter.drawText(180,i*20+155,mAdisyonModel->index(i,2).data(Qt::DisplayRole).toString());
+        painter.drawText(270,i*20+155,mAdisyonModel->index(i,3).data(Qt::DisplayRole).toString());
+        mTotalPrice += mAdisyonModel->index(i,3).data(Qt::DisplayRole).toDouble();
+        lastYPos = i*20+155;
+    }
+    lastYPos += 5;
+    painter.drawLine(20,lastYPos,330,lastYPos);
+
+    lastYPos += 15;
+    painter.drawText(200,lastYPos,QString(TR("Toplam Tutar") + QString(" :") +QString::number(mTotalPrice)+ " " + mParaBirimiComboBox->currentText()));
+
+
+    lastYPos += 30;
+    painter.setFont(QFont("Tahoma",13,-1,true));
+    painter.drawText(125,lastYPos,QString(TR("Teşekkürler")));
+
+
+
+
+    mAdisyonPreviewLabel->setGeometry(0,0,350,mAdisyonPreviwImage->height());
+    mAdisyonPreviewLabel->setPixmap(QPixmap::fromImage(*mAdisyonPreviwImage));
+
+
 }
 
 void AdisyonWidget::incrementUrun()
@@ -156,6 +239,7 @@ void AdisyonWidget::incrementUrun()
     if( index.isValid() ){
         this->addUrun(mAdisyonModel->index(index.row(),0).data(AdisyonModel::Oid).toString());
         mAdisyonView->setCurrentIndex(index);
+            this->paintAdisyon();
     }
 }
 
@@ -165,6 +249,7 @@ void AdisyonWidget::decrementUrun()
     if( index.isValid() ){
         this->reduceUrun(mAdisyonModel->index(index.row(),0).data(AdisyonModel::Oid).toString());
         mAdisyonView->setCurrentIndex(index);
+            this->paintAdisyon();
     }
 }
 
@@ -184,7 +269,7 @@ void AdisyonWidget::changeUrunAdet()
 
             mAdisyonModel->changeUrun(urunItem,mDialog->adetDoubleSpinBox()->value());
 
-            mTotalFiyatLabel->setText("<b>"+QString(TR("Toplam Fiyat"))+" :"+
+            mTotalFiyatLabel->setText("<b>"+QString(TR("Toplam Tutar"))+" :"+
                                       QString::number(mAdisyonModel->getTotalPrice()) + " " +
                                       mParaBirimiComboBox->currentText()+"</b>");
 
@@ -200,8 +285,9 @@ void AdisyonWidget::changeUrunAdet()
 
         mDialog->exec();
         mAdisyonView->setCurrentIndex(index);
+            this->paintAdisyon();
     }else{
-        GlobarVar::InformationWidget::instance()->setInformation("Lütfen Listeden Ürün Seçiniz",GlobarVar::InformationWidget::Warn);
+            GlobarVar::InformationWidget::instance()->setInformation(TR("Lütfen Listeden Ürün Seçiniz"),GlobarVar::InformationWidget::Warn);
     }
 }
 
@@ -209,7 +295,7 @@ void AdisyonWidget::removeUrun()
 {
     auto index = mAdisyonView->currentIndex();
     if( index.isValid() ){
-        auto mDialog = GlobarVar::AskDialog::askQuestion("Silmek İstediğinize Eminsiniz?");
+            auto mDialog = GlobarVar::AskDialog::askQuestion(("Silmek İstediğinize Eminsiniz?"));
         if( mDialog->status() == GlobarVar::AskDialog::YES ){
             auto urunOid = mAdisyonModel->index(index.row(),0).data(AdisyonModel::Oid).toString();
             Cafe::Urun::UrunItem filter;
@@ -219,8 +305,9 @@ void AdisyonWidget::removeUrun()
         }
 
         delete mDialog;
+            this->paintAdisyon();
     }else{
-        GlobarVar::InformationWidget::instance()->setInformation("Lütfen Listeden Ürün Seçiniz",GlobarVar::InformationWidget::Warn);
+            GlobarVar::InformationWidget::instance()->setInformation(TR("Lütfen Listeden Ürün Seçiniz"),GlobarVar::InformationWidget::Warn);
     }
 }
 

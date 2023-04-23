@@ -58,7 +58,7 @@ QVariant Urun::UrunModel::data(const QModelIndex &index, int role) const
             return "out of range";
         }else{
             if( index.column() == 0 ){
-                return QString{mList.at(index.row()).getUrunAdi().c_str()};
+                return TR(mList.at(index.row()).getUrunAdi().c_str());
             }else{
                 return this->getSubLangFiyat(index.column(),mList.at(index.row()));
             }

@@ -68,16 +68,21 @@ private:
     QLabel* mAdisyonPreviewTitle;
     QScrollArea* mAdisyonPreviewScrollArea;
     QLabel* mAdisyonPreviewLabel;
-    QImage* mAdisyonPreviwImage;
+    QImage* mAdisyonPreviwImage{nullptr};
     QPushButton* mAdisyonPreviewPrintBtn;
 
     Cafe::Urun::UrunManager* mUrunManager;
+
+
+    void paintAdisyon();
 
 private slots:
     void incrementUrun();
     void decrementUrun();
     void changeUrunAdet();
     void removeUrun();
+
+
 
 };
 
