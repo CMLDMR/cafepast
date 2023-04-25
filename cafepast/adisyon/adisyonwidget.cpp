@@ -19,6 +19,10 @@
 #include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QPainter>
+#include <QPrintDialog>
+#include <QPrinter>
+#include <QPrintPreviewDialog>
+
 
 namespace Adisyon {
 
@@ -124,6 +128,7 @@ AdisyonWidget::AdisyonWidget(QWidget *parent)
     QObject::connect(mSayiAzaltBtn,&QPushButton::clicked,this,&AdisyonWidget::decrementUrun);
     QObject::connect(mSayiDegisBtn,&QPushButton::clicked,this,&AdisyonWidget::changeUrunAdet);
     QObject::connect(mSilSelectedBtn,&QPushButton::clicked,this,&AdisyonWidget::removeUrun);
+    QObject::connect(mAdisyonPreviewPrintBtn,&QPushButton::clicked,this,&AdisyonWidget::printReceipt);
 
     paintAdisyon();
 
@@ -167,6 +172,7 @@ void AdisyonWidget::paintAdisyon()
             heightPix += 20;
         }
 
+        const int imgWidth = 350;
 
     if( mAdisyonPreviwImage ){
         delete mAdisyonPreviwImage;
@@ -182,7 +188,7 @@ void AdisyonWidget::paintAdisyon()
 
     auto font = painter.font();
 
-    painter.drawRect(10,10,330,50);
+//    painter.drawRect(10,10,330,50);
 
     painter.setFont(QFont("Tahoma",18));
 
@@ -309,6 +315,99 @@ void AdisyonWidget::removeUrun()
     }else{
             GlobarVar::InformationWidget::instance()->setInformation(TR("Lütfen Listeden Ürün Seçiniz"),GlobarVar::InformationWidget::Warn);
     }
+}
+
+void AdisyonWidget::printReceipt()
+{
+
+    const int yPos = 35;
+
+    QPrinter printer;
+    printer.setOutputFormat(QPrinter::NativeFormat);
+//    printer.setResolution(QPrinter::PrinterMode::PrinterResolution);
+//    printer.setOutputFileName("nonwrite.pdf");
+//    printer.setPageSize(QPageSize(printImg.size()));
+    QPainter painter;
+    if (! painter.begin(&printer)) { // failed to open file
+            qWarning("failed to open file, is it writable?");
+            return;
+    }
+    painter.setFont(QFont("Tahoma",20));
+
+    auto font = painter.font();
+
+    painter.setPen(QPen(Qt::SolidLine));
+    painter.setPen(QPen(Qt::GlobalColor::black));
+
+    painter.setFont(QFont("Tahoma",16));
+
+    painter.drawText(0,yPos,"Cafe & Pastane Adı");
+
+    painter.setFont(QFont("Tahoma",7));
+
+    painter.drawText(0,yPos+10,QDate::currentDate().toString("dd/MM/yyyy"));
+    painter.drawText(155,yPos+10,QTime::currentTime().toString("hh:mm"));
+
+
+    painter.setFont(QFont("Tahoma",10));
+    painter.drawText(55,60,TR("Siparişler"));
+
+    painter.setFont(QFont("Tahoma",9));
+    painter.drawText(0,75,TR("Menü"));
+    painter.drawText(120,75,TR("Adet"));
+    painter.drawText(150,75,TR("Fiyat"));
+//    painter.drawLine(20,72,740,72);
+
+
+    painter.setFont(QFont("Tahoma",10));
+    painter.drawText(0,83,"-------------------------------------------------------------");
+    painter.setFont(QFont("Tahoma",8));
+
+    double mTotalPrice = 0;
+    int lastYPos = 91;
+    for( int i = 0 ; i < mAdisyonModel->rowCount() ; i++ ){
+            painter.drawText(0,i*12+94,mAdisyonModel->index(i,0).data(Qt::DisplayRole).toString());
+            painter.drawText(120,i*12+94,mAdisyonModel->index(i,2).data(Qt::DisplayRole).toString());
+            painter.drawText(160,i*12+94,mAdisyonModel->index(i,3).data(Qt::DisplayRole).toString());
+            mTotalPrice += mAdisyonModel->index(i,3).data(Qt::DisplayRole).toDouble();
+            lastYPos = i*12+94;
+    }
+    lastYPos += 13;
+
+    painter.setFont(QFont("Tahoma",10));
+
+    painter.drawText(0,lastYPos,"-------------------------------------------------------------");
+
+    lastYPos += 15;
+    painter.setFont(QFont("Tahoma",10));
+
+    painter.drawText(0,lastYPos,QString(TR("Toplam Tutar") + QString(" :") +QString::number(mTotalPrice)+ " " + mParaBirimiComboBox->currentText()));
+
+
+    lastYPos += 25;
+    painter.setFont(QFont("Tahoma",10,-1,true));
+    painter.drawText(0,lastYPos,QString(TR("Teşekkürler | ")+QString("Telefon Numarası")));
+
+
+    painter.end();
+
+    QPrintPreviewDialog preview_dlg(&printer);
+    QObject::connect(&preview_dlg, &QPrintPreviewDialog::paintRequested,[=](QPrinter* printer){
+
+
+
+    });
+    preview_dlg.open();
+
+
+//    QPrintDialog dialog(&printer, this);
+//    dialog.setWindowTitle("Adisyon Yazdır");
+
+
+//    if(dialog.exec() != QDialog::Accepted){
+
+//    }
+
 }
 
 } // namespace Adisyon
