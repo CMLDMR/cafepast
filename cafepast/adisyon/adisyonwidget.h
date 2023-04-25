@@ -82,6 +82,8 @@ private slots:
     void changeUrunAdet();
     void removeUrun();
 
+    void printReceipt();
+
 
 
 };
