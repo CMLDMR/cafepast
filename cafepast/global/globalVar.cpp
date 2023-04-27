@@ -110,6 +110,18 @@ std::string LocalConfiguration::getCurrentLang() const
     return val.toString().toStdString();
 }
 
+void LocalConfiguration::setCorpName(const std::string &mCorpName)
+{
+    mConfigurations.insert("corpName",mCorpName.data());
+    this->saveConfigurationFile();
+}
+
+std::string LocalConfiguration::getCorpName() const
+{
+    auto val = mConfigurations.value("corpName");
+    return val.toString().toStdString();
+}
+
 bool LocalConfiguration::isLoaded() const
 {
     return mIsLoaded;

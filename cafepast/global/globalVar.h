@@ -29,6 +29,9 @@ public:
     void setCurrentLang( const std::string &langShortName );
     std::string getCurrentLang() const;
 
+    void setCorpName( const std::string &mCorpName );
+    std::string getCorpName() const;
+
     bool isLoaded() const;
 
 private:

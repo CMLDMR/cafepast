@@ -51,6 +51,9 @@ private:
     std::unique_ptr<QAction> mDilSecimiAction;
     std::unique_ptr<QAction> mTextManagerAction;
 
+    std::unique_ptr<QMenu> mOtherMenu;
+    std::unique_ptr<QAction> mCorpNameAction;
+
     QTranslator mEnglishTranslator;
     QTranslator mMakedonTranslator;
 

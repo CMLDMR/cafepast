@@ -192,7 +192,7 @@ void AdisyonWidget::paintAdisyon()
 
     painter.setFont(QFont("Tahoma",18));
 
-    painter.drawText(80,40,"Cafe & Pastane Adı");
+    painter.drawText(80,40,GlobarVar::LocalConfiguration::instance()->getCorpName().c_str());
 
         painter.setFont(font);
     painter.drawText(20,75,QDate::currentDate().toString("dd/MM/yyyy"));
@@ -341,7 +341,7 @@ void AdisyonWidget::printReceipt()
 
     painter.setFont(QFont("Tahoma",16));
 
-    painter.drawText(0,yPos,"Cafe & Pastane Adı");
+    painter.drawText(0,yPos,GlobarVar::LocalConfiguration::instance()->getCorpName().c_str());
 
     painter.setFont(QFont("Tahoma",7));
 

@@ -8,6 +8,7 @@
 #include "dialogs/langDialog/languagedialog.h"
 #include "dialogs/langDialog/languagetextbankdialog.h"
 #include "dialogs/urunDialog/urunmanagerdialog.h"
+#include "dialogs/otheroptionsdialog.h"
 
 #include "adisyon/adisyonwidget.h"
 
@@ -23,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     Cafe::Language::LanguageTextManager::instance()->setDestinationShortLang(GlobarVar::LocalConfiguration::instance()->getCurrentLang().data());
 
-    this->setWindowTitle("Cafe Del Mar - " + QString(GlobarVar::LocalConfiguration::instance()->getCurrentLang().data()).toUpper());
+    this->setWindowTitle(QString(GlobarVar::LocalConfiguration::instance()->getCorpName().data())+" - " + QString(GlobarVar::LocalConfiguration::instance()->getCurrentLang().data()).toUpper());
     this->initAction();
 
     this->initWidget();
@@ -86,6 +87,19 @@ void MainWindow::initAction()
             delete mLanguageTextBankDialog;
         });
     mAyarlarMenu->addAction(mTextManagerAction.get());
+
+
+    mOtherMenu = std::make_unique<QMenu>(TR("Diğer Ayarlar"));
+    mAyarlarMenu.get()->addMenu(mOtherMenu.get());
+
+    mCorpNameAction = std::make_unique<QAction>(TR("Şirket Adı Değiştir"));
+       QObject::connect(mCorpNameAction.get(),&QAction::triggered,[=](const bool triggered){
+        //TODO: Cafe Adı Ayarları Eklenecek
+           auto mLanguageTextBankDialog = new Other::OtherOptionsDialog();
+           mLanguageTextBankDialog->exec();
+           delete mLanguageTextBankDialog;
+       });
+    mOtherMenu->addAction(mCorpNameAction.get());
 
 }
 
