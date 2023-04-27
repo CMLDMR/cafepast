@@ -24,6 +24,7 @@ public:
     QVBoxLayout* mMainLayout;
     QLabel* mTitleLabel;
     QLineEdit* mCafeNameLineEdit;
+    QLineEdit* mCafeContactNumber;
 
     QHBoxLayout* mControllerLayout;
     QPushButton* mAcceptedBtn;

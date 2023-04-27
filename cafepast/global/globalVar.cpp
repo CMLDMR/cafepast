@@ -122,6 +122,18 @@ std::string LocalConfiguration::getCorpName() const
     return val.toString().toStdString();
 }
 
+void LocalConfiguration::setContactName(const std::string &mContactName)
+{
+    mConfigurations.insert("contact",mContactName.data());
+    this->saveConfigurationFile();
+}
+
+std::string LocalConfiguration::getContactName() const
+{
+    auto val = mConfigurations.value("contact");
+    return val.toString().toStdString();
+}
+
 bool LocalConfiguration::isLoaded() const
 {
     return mIsLoaded;

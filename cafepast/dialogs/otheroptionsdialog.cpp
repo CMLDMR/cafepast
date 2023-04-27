@@ -30,6 +30,12 @@ OtherOptionsDialog::OtherOptionsDialog()
 
     mMainLayout->addWidget(mCafeNameLineEdit);
 
+    mCafeContactNumber = new QLineEdit();
+    mCafeContactNumber->setPlaceholderText(TR("Şirket Telefon Numarasını Giriniz"));
+    mCafeContactNumber->setText(GlobarVar::LocalConfiguration::instance()->getCorpName().c_str());
+
+    mMainLayout->addWidget(mCafeContactNumber);
+
     mControllerLayout = new QHBoxLayout();
     mMainLayout->addLayout(mControllerLayout);
 

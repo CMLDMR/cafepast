@@ -53,6 +53,7 @@ private:
 
     std::unique_ptr<QMenu> mOtherMenu;
     std::unique_ptr<QAction> mCorpNameAction;
+    std::unique_ptr<QAction> mCorpContactAction;
 
     QTranslator mEnglishTranslator;
     QTranslator mMakedonTranslator;
