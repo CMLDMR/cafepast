@@ -39,7 +39,7 @@ QModelIndex Urun::UrunModel::parent(const QModelIndex &child) const
 
 int Urun::UrunModel::rowCount(const QModelIndex &parent) const
 {
-    return this->mList.size();
+    return static_cast<int>(this->mList.size());
 }
 
 int Urun::UrunModel::columnCount(const QModelIndex &parent) const
