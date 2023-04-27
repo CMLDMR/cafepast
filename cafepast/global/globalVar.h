@@ -32,6 +32,9 @@ public:
     void setCorpName( const std::string &mCorpName );
     std::string getCorpName() const;
 
+    void setContactName( const std::string &mContactName );
+    std::string getContactName() const;
+
     bool isLoaded() const;
 
 private:

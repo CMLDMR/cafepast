@@ -101,6 +101,15 @@ void MainWindow::initAction()
        });
     mOtherMenu->addAction(mCorpNameAction.get());
 
+       mCorpContactAction = std::make_unique<QAction>(TR("Telefon Numarası Değiştir"));
+       QObject::connect(mCorpContactAction.get(),&QAction::triggered,[=](const bool triggered){
+           //TODO: Cafe Adı Ayarları Eklenecek
+           auto mLanguageTextBankDialog = new Other::OtherOptionsDialog();
+           mLanguageTextBankDialog->exec();
+           delete mLanguageTextBankDialog;
+       });
+       mOtherMenu->addAction(mCorpNameAction.get());
+
 }
 
 void MainWindow::initWidget()
