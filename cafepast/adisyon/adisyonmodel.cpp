@@ -145,5 +145,18 @@ double AdisyonModel::getTotalPrice() const
     return totalPrice;
 }
 
+bool AdisyonModel::insertToDB()
+{
+
+    auto ins = mAdisyonListManager->InsertItem(*mUrunList);
+
+    if( ins.size() ){
+        return true;
+    }else{
+        return false;
+    }
+
+}
+
 } // namespace Adisyon
 

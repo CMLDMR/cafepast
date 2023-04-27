@@ -394,19 +394,15 @@ void AdisyonWidget::printReceipt()
     QPrintPreviewDialog preview_dlg(&printer);
     QObject::connect(&preview_dlg, &QPrintPreviewDialog::paintRequested,[=](QPrinter* printer){
 
-
-
     });
     preview_dlg.open();
 
-
-//    QPrintDialog dialog(&printer, this);
-//    dialog.setWindowTitle("Adisyon Yazdır");
-
-
-//    if(dialog.exec() != QDialog::Accepted){
-
-//    }
+    if( mAdisyonModel->insertToDB() ){
+            GlobarVar::InformationWidget::instance()->setInformation(TR("Adisyon Kayıt Edildi"));
+            mAdisyonModel->removeRows(0,mAdisyonModel->rowCount());
+    }else{
+            GlobarVar::InformationWidget::instance()->setInformation(TR("Adisyon Kayıt Edilemedi"),GlobarVar::InformationWidget::Critic);
+    }
 
 }
 
