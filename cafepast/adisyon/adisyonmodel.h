@@ -37,6 +37,8 @@ public:
 
     double getTotalPrice() const;
 
+    bool insertToDB();
+
 private:
 
     Adisyon::AdisyonListItem* mUrunList;
