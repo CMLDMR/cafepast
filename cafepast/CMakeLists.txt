@@ -28,6 +28,9 @@ file(GLOB_RECURSE HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 file(GLOB_RECURSE SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 file(GLOB_RECURSE UIFILES ${CMAKE_CURRENT_SOURCE_DIR}/*.ui)
 
+set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/icon/appico.rc")
+
+
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
@@ -43,6 +46,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${UIFILES}
         ${QM_FILES}
         ${RESOURCES}
+        ${app_icon_resource_windows}
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET cafepast APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
