@@ -32,7 +32,7 @@ OtherOptionsDialog::OtherOptionsDialog()
 
     mCafeContactNumber = new QLineEdit();
     mCafeContactNumber->setPlaceholderText(TR("Şirket Telefon Numarasını Giriniz"));
-    mCafeContactNumber->setText(GlobarVar::LocalConfiguration::instance()->getCorpName().c_str());
+    mCafeContactNumber->setText(GlobarVar::LocalConfiguration::instance()->getContactName().c_str());
 
     mMainLayout->addWidget(mCafeContactNumber);
 
