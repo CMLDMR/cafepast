@@ -228,7 +228,7 @@ void AdisyonWidget::paintAdisyon()
 
     lastYPos += 30;
     painter.setFont(QFont("Tahoma",13,-1,true));
-    painter.drawText(75,lastYPos,QString(TR("Teşekkürler | ")+QString(GlobarVar::LocalConfiguration::instance()->getContactName().data())));
+    painter.drawText(75,lastYPos,QString(TR("Teşekkürler") + QString(" | ") +QString(GlobarVar::LocalConfiguration::instance()->getContactName().data())));
 
 
 
@@ -386,7 +386,7 @@ void AdisyonWidget::printReceipt()
 
     lastYPos += 25;
     painter.setFont(QFont("Tahoma",10,-1,true));
-    painter.drawText(0,lastYPos,QString(TR("Teşekkürler | ")+QString(GlobarVar::LocalConfiguration::instance()->getContactName().data())));
+    painter.drawText(0,lastYPos,QString(TR("Teşekkürler")+QString(" | ")+QString(GlobarVar::LocalConfiguration::instance()->getContactName().data())));
 
 
     painter.end();

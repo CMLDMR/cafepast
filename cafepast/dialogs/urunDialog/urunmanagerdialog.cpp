@@ -31,7 +31,7 @@ UrunManagerDialog::UrunManagerDialog()
 
     mUrunAdiLayout = new QHBoxLayout();
     mYeniUrunAdiLineEdit = new QLineEdit();
-    mYeniUrunAdiLineEdit->setPlaceholderText("Yeni Ürün Adını Giriniz");
+    mYeniUrunAdiLineEdit->setPlaceholderText(TR("Yeni Ürün Adını Giriniz"));
     mUrunAdiLangTR = new QLabel("tr");
     mUrunEkle = new QPushButton(TR("Ekle+"));
     mUrunAdiLayout->addWidget(mYeniUrunAdiLineEdit);
@@ -66,6 +66,7 @@ UrunManagerDialog::UrunManagerDialog()
     mFiyatLayout = new QHBoxLayout();
     mParaBirimiSecLabel = new QLabel(TR("Para Birimi Seç"));
     mFiyatSpinBox = new QDoubleSpinBox();
+    mFiyatSpinBox->setMaximum(9999999);
     mParaBirimiComboBox = new QComboBox();
     mYeniEkleBtn = new QPushButton(TR("Ekle+"));
 
