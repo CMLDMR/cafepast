@@ -105,6 +105,12 @@ QVariant Urun::UrunModel::headerData(int section, Qt::Orientation orientation, i
     return QVariant();
 }
 
+double Urun::UrunModel::price(const int &row, const std::string &paraBirimi) const
+{
+    if( row < 0 || row >= mList.size() ) return 0.0;
+    return this->mList.at(row).getUrun(paraBirimi).getUrunFiyati();
+}
+
 QString Urun::UrunModel::getSubLangFiyat(const int HeaderSection,const Cafe::Urun::UrunItem &item) const
 {
     auto paraBirimStr = this->headerData(HeaderSection,Qt::Horizontal,Qt::DisplayRole).toString();

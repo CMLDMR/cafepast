@@ -63,13 +63,13 @@ void Urun::UrunTableView::contextMenuEvent(QContextMenuEvent *event)
 
 
 
-//    auto priceChangeAction = menu.addAction(TR("Fiyat Değiştir"));
+    auto priceChangeAction = menu.addAction(TR("Fiyat Değiştir"));
 
-//    QObject::connect(priceChangeAction,&QAction::triggered,[=](){
+    QObject::connect(priceChangeAction,&QAction::triggered,[=](){
 
-//        emit priceChangeClicked();
+        emit priceChangeClicked();
 
-//    });
+    });
 
     menu.exec(event->globalPos());
 

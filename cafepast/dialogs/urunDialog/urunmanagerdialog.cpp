@@ -94,6 +94,7 @@ UrunManagerDialog::UrunManagerDialog()
         auto ins = this->mUrunModel->InsertItem(urunItem);
         if( ins.size() ){
             this->updateUrunList();
+            mYeniEkleBtn->setText(TR("Ekle+"));
         }
     });
 
@@ -125,24 +126,63 @@ UrunManagerDialog::UrunManagerDialog()
         langItem.setUrunFiyati(mFiyatSpinBox->value());
         langItem.setUrunParaBirimi(mParaBirimiComboBox->currentData(ParaBirimi::ParaItemModel::ParaItemRole).toString().toStdString());
 
+        if( mYeniEkleBtn->text() == "Değiştir" ){
 
-        if( urunItem.addUrun(langItem) ){
-            auto upt = this->mUrunModel->UpdateItem(urunItem);
-            if( upt ){
-                this->updateUrunList();
+            if( urunItem.IsUrunExist(mParaBirimiComboBox->currentText().toStdString()) ){
+                if( urunItem.change(mParaBirimiComboBox->currentText().toStdString(),langItem) ){
+                    auto upt = this->mUrunModel->UpdateItem(urunItem);
+                    if( upt ){
+                        this->updateUrunList();
+                        errorOccured(TR("Fiyat Güncellendi"));
+                    }else{
+                        errorOccured(TR("Ürün Güncellenemedi"));
+                    }
+                }else{
+                }
             }else{
-                errorOccured(TR("Ürün Güncellenemedi"));
+            if( urunItem.addUrun(langItem) ){
+                auto upt = this->mUrunModel->UpdateItem(urunItem);
+                if( upt ){
+                    this->updateUrunList();
+                        errorOccured(TR("Fiyat Eklendi"));
+
+                }else{
+                    errorOccured(TR("Ürün Güncellenemedi"));
+                }
+            }else{
             }
+            }
+
+
         }else{
-            errorOccured(TR("Bu Para Biriminde Fiyat Mevcut"));
+            if( urunItem.addUrun(langItem) ){
+                auto upt = this->mUrunModel->UpdateItem(urunItem);
+                if( upt ){
+                    this->updateUrunList();
+                }else{
+                    errorOccured(TR("Ürün Güncellenemedi"));
+                }
+            }else{
+                errorOccured(TR("Bu Para Biriminde Fiyat Mevcut"));
+            }
         }
+
+
 
 
     });
 
 
     QObject::connect(mUrunListView,&QTableView::doubleClicked,[=]( const QModelIndex &index){
+        mYeniEkleBtn->setText(TR("Değiştir"));
         mSelectedUrunOid->setText(mUrunModel->index(index.row(),0,index).data(Qt::UserRole+1).toString());
+        mFiyatSpinBox->setValue(mUrunModel->price(index.row(),mParaBirimiComboBox->currentText().toStdString()));
+    });
+
+    QObject::connect(mUrunListView,&QTableView::clicked,[=]( const QModelIndex &index){
+        mYeniEkleBtn->setText(TR("Değiştir"));
+        mSelectedUrunOid->setText(mUrunModel->index(index.row(),0,index).data(Qt::UserRole+1).toString());
+        mFiyatSpinBox->setValue(mUrunModel->price(index.row(),mParaBirimiComboBox->currentText().toStdString()));
     });
 
     QObject::connect(mKategoriComboBox,&QComboBox::currentIndexChanged,[=](const int &index){
@@ -162,9 +202,6 @@ void UrunManagerDialog::updateUrunList()
 void UrunManagerDialog::delClicked(const QString &urunOid)
 {
 
-
-    qDebug() << "Ürün Oid " << urunOid;
-
     Cafe::Urun::UrunItem filter;
     filter.setOid(urunOid.toStdString());
 
@@ -174,8 +211,6 @@ void UrunManagerDialog::delClicked(const QString &urunOid)
     }else{
         GlobarVar::InformationWidget::instance()->setInformation(TR("Ürün Silindi"),GlobarVar::InformationWidget::Warn);
     }
-
-
 
 }
 
