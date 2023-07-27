@@ -54,9 +54,9 @@ OtherOptionsDialog::OtherOptionsDialog()
 
     QObject::connect(mAcceptedBtn,&QPushButton::clicked,[=](){
         GlobarVar::LocalConfiguration::instance()->setCorpName(mCafeNameLineEdit->text().toStdString().c_str());
-        GlobarVar::InformationWidget::instance()->setInformation("Şirket Adı Değiştirildi");
+        GlobarVar::LocalConfiguration::instance()->setContactName(mCafeContactNumber->text().toStdString().c_str());
+        GlobarVar::InformationWidget::instance()->setInformation(TR("Güncellendi. Uygulamayı Yeniden Başlatın"));
         this->close();
-
     });
 
 }
