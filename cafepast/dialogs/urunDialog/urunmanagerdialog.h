@@ -24,6 +24,9 @@ class QLabel;
 
 namespace Urun {
 
+class UrunTableView;
+
+
 class UrunManagerDialog : public QDialog, public Cafe::Urun::UrunManager
 {
     Q_OBJECT
@@ -42,7 +45,7 @@ private:
 
 
 
-    QTableView* mUrunListView;
+    UrunTableView* mUrunListView;
 
     QHBoxLayout* mYeniEkleLayout;
     QLabel* mSelectedUrunOid;
@@ -61,6 +64,10 @@ private:
 
 private:
     void updateUrunList();
+
+    void delClicked( const QString &urunOid );
+    void priceChangeClicked( );
+
 
 
     // DB interface

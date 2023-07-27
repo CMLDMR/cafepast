@@ -11,6 +11,9 @@
 #include <QDoubleSpinBox>
 #include <QLabel>
 
+#include "uruntableview.h"
+
+
 namespace Urun {
 
 UrunManagerDialog::UrunManagerDialog()
@@ -40,10 +43,12 @@ UrunManagerDialog::UrunManagerDialog()
     mMainLayout->addLayout(mUrunAdiLayout);
 
 
-    mUrunListView = new QTableView();
+    mUrunListView = new UrunTableView();
     mMainLayout->addWidget(mUrunListView);
     mUrunModel = new Urun::UrunModel();
     mUrunListView->setModel(mUrunModel);
+    QObject::connect(mUrunListView,&UrunTableView::delClicked,this,&UrunManagerDialog::delClicked);
+    QObject::connect(mUrunListView,&UrunTableView::priceChangeClicked,this,&UrunManagerDialog::priceChangeClicked);
 
     mSelectedUrunOid = new QLabel("mSelectedUrunOid");
     mMainLayout->addWidget(mSelectedUrunOid);
@@ -152,6 +157,31 @@ void UrunManagerDialog::updateUrunList()
     Cafe::Urun::UrunItem filter;
     filter.setKategoriOid(mKategoriComboBox->currentData(Kategori::KategoriListModel::KategoriOidRole).toString().toStdString());
     mUrunModel->UpdateList(filter);
+}
+
+void UrunManagerDialog::delClicked(const QString &urunOid)
+{
+
+
+    qDebug() << "Ürün Oid " << urunOid;
+
+    Cafe::Urun::UrunItem filter;
+    filter.setOid(urunOid.toStdString());
+
+    if( this->DeleteItem(filter) ){
+        GlobarVar::InformationWidget::instance()->setInformation(TR("Ürün Silindi"));
+        this->updateUrunList();
+    }else{
+        GlobarVar::InformationWidget::instance()->setInformation(TR("Ürün Silindi"),GlobarVar::InformationWidget::Warn);
+    }
+
+
+
+}
+
+void UrunManagerDialog::priceChangeClicked()
+{
+    mFiyatSpinBox->setFocus();
 }
 
 } // namespace Urun
