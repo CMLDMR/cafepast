@@ -37,6 +37,8 @@ public:
 public:
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
+    double price(const int &row , const std::string &paraBirimi) const;
+
 private:
     std::vector<Cafe::Urun::UrunItem> mList;
 
