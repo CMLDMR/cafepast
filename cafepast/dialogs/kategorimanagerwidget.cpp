@@ -2,6 +2,7 @@
 #include "kategorimanagerwidget.h"
 #include "cafecore/languageitem.h"
 
+#include "global/informationwidget.h"
 
 Kategori::KategoriManagerWidget::KategoriManagerWidget()
 {
@@ -47,11 +48,16 @@ Kategori::KategoriManagerWidget::KategoriManagerWidget()
     QObject::connect(mYeniEkleWidget,&YeniEkleWidget::yeniClicked,[=](const QString& newKategoriName){
         Cafe::Kategori::KategoriItem item;
         item.setName(newKategoriName.toStdString());
-        auto ins = mKategorListView->kategoriModel()->InsertItem(item);
-        if( ins.size() ){
-            mKategorListView->kategoriModel()->UpdateList();
+        if( mKategorListView->kategoriModel()->countItem(item) > 0 ){
+            GlobarVar::InformationWidget::instance()->setInformation(TR("Bu Kategori Zaten Mevcut"));
+        }else{
+            auto ins = mKategorListView->kategoriModel()->InsertItem(item);
+            if( ins.size() ){
+                mKategorListView->kategoriModel()->UpdateList();
+            }
+            mStackedWidget->slideInIdx(0);
         }
-        mStackedWidget->slideInIdx(0);
+
     });
 
 
