@@ -21,6 +21,7 @@ protected:
 Q_SIGNALS:
     void delClicked( const QString&);
     void priceChangeClicked();
+    void urunAdiniChangeClicked(const QString&, const QString&);
 
 private:
     Urun::UrunModel* mUrunModel{nullptr};
