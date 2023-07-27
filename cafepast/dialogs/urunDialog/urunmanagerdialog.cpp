@@ -48,7 +48,7 @@ UrunManagerDialog::UrunManagerDialog()
     mUrunModel = new Urun::UrunModel();
     mUrunListView->setModel(mUrunModel);
     QObject::connect(mUrunListView,&UrunTableView::delClicked,this,&UrunManagerDialog::delClicked);
-    QObject::connect(mUrunListView,&UrunTableView::priceChangeClicked,this,&UrunManagerDialog::priceChangeClicked);
+    QObject::connect(mUrunListView,&UrunTableView::urunAdiniChangeClicked,this,&UrunManagerDialog::urunAdiniChangeClicked);
 
     mSelectedUrunOid = new QLabel("mSelectedUrunOid");
     mMainLayout->addWidget(mSelectedUrunOid);
@@ -217,6 +217,50 @@ void UrunManagerDialog::delClicked(const QString &urunOid)
 void UrunManagerDialog::priceChangeClicked()
 {
     mFiyatSpinBox->setFocus();
+}
+
+void UrunManagerDialog::urunAdiniChangeClicked(const QString &urunOid, const QString &UrunAdi)
+{
+
+    auto mDialog = std::make_unique<QDialog>();
+
+    mDialog->setWindowTitle("Değiştir");
+
+    auto mHLayout = new QHBoxLayout(mDialog.get());
+
+    mDialog->setLayout(mHLayout);
+
+    auto newNameLineEdit = std::make_unique<QLineEdit>();
+    newNameLineEdit->setText(UrunAdi);
+    newNameLineEdit->setPlaceholderText(TR("Yeni Ürün Adını Giriniz"));
+
+    mHLayout->addWidget(newNameLineEdit.get());
+
+    auto savebtn = std::make_unique<QPushButton>(TR("Kaydet"));
+    mHLayout->addWidget(savebtn.get());
+
+    QObject::connect(savebtn.get(),&QPushButton::clicked,[=,&newNameLineEdit,&mDialog](){
+
+            Cafe::Urun::UrunItem filter;
+            filter.setOid(urunOid.toStdString());
+            filter.setUrunAdi(newNameLineEdit->text().toStdString());
+
+            if( this->UpdateItem(filter) ){
+                GlobarVar::InformationWidget::instance()->setInformation(TR("Ürün Adı Güncellendi"));
+                this->updateUrunList();
+                mDialog->close();
+
+            }else{
+                GlobarVar::InformationWidget::instance()->setInformation(TR("Ürün Adı Güncellenemedi"),GlobarVar::InformationWidget::Warn);
+            }
+
+    });
+
+
+
+
+    mDialog->exec();
+
 }
 
 } // namespace Urun

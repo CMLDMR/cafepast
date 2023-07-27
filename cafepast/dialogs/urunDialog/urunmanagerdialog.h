@@ -67,6 +67,7 @@ private:
 
     void delClicked( const QString &urunOid );
     void priceChangeClicked( );
+    void urunAdiniChangeClicked( const QString &urunOid, const QString &UrunAdi );
 
 
 

@@ -39,9 +39,14 @@ void Urun::UrunTableView::contextMenuEvent(QContextMenuEvent *event)
 
     QMenu menu;
 
+    auto urunAdiChangeAction = menu.addAction(TR("Adını Değiştir"));
+    QObject::connect(urunAdiChangeAction,&QAction::triggered,[=](){
+        emit urunAdiniChangeClicked(this->currentIndex().data(Qt::UserRole+1).toString(),
+                                    this->currentIndex().data(Qt::DisplayRole).toString());
+    });
+
+
     auto delAction = menu.addAction(TR("Sil"));
-
-
     QObject::connect(delAction,&QAction::triggered,[=](){
 
         auto msgBox = std::make_unique<QMessageBox>();
@@ -63,13 +68,7 @@ void Urun::UrunTableView::contextMenuEvent(QContextMenuEvent *event)
 
 
 
-//    auto priceChangeAction = menu.addAction(TR("Fiyat Değiştir"));
 
-//    QObject::connect(priceChangeAction,&QAction::triggered,[=](){
-
-//        emit priceChangeClicked();
-
-//    });
 
     menu.exec(event->globalPos());
 
