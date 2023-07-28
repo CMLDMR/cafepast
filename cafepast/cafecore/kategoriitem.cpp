@@ -42,9 +42,9 @@ void KategoriManager::onList(const std::vector<KategoriItem> &mList)
 {
 
 
-    for( const auto &item : mList ){
-        std::cout << bsoncxx::to_json(item.view()) << "\n";
-    }
+//    for( const auto &item : mList ){
+//        std::cout << bsoncxx::to_json(item.view()) << "\n";
+//    }
 
 }
 
