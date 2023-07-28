@@ -9,6 +9,8 @@
 #include <QJsonValue>
 #include <QJsonDocument>
 
+#include "cafecore/useritem.h"
+
 namespace GlobarVar{
 
 
@@ -55,12 +57,22 @@ public:
     /// \return static MongoCore::DB*
     static MongoCore::DB* DB();
 
+    Cafe::User::UserItem *currentUser() const;
+    void setCurrentUser(Cafe::User::UserItem *newCurrentUser);
+
+    QString currentSube() const;
+    void setCurrentSube(const QString &newCurrentSube);
+
+    static GlobalDB *global() ;
+
 private:
     MongoCore::DB* mDB;
     mongocxx::client *mClient;
     mongocxx::database db;
     static GlobalDB* mGlobal;
-    GlobalDB *global() const;
+
+    Cafe::User::UserItem* mCurrentUser;
+    QString mCurrentSube;
 
 };
 
