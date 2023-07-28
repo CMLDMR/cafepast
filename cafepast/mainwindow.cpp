@@ -170,7 +170,7 @@ void MainWindow::initWidget()
 {
 
     mTabWidget = std::make_unique<TabWidget>();
-    mTabWidget->setMaximumWidth(750);
+//    mTabWidget->setMaximumWidth(1024);
     mCentralWidgetLayout = std::make_unique<QHBoxLayout>();
     ui->centralwidget->setLayout(mCentralWidgetLayout.get());
 
