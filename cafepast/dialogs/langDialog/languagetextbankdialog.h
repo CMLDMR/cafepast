@@ -22,6 +22,7 @@ namespace Language {
 
 class LanguageTextModel;
 class LanguageModel;
+class TextBankTableView;
 
 class LanguageTextBankDialog : public QDialog
 {
@@ -31,7 +32,7 @@ public:
 
 private:
     QVBoxLayout* mMainLayout;
-    QTableView* mTextTableView;
+    TextBankTableView* mTextTableView;
 
     LanguageTextModel* mTextBankModel;
     LanguageModel* mLanguageModel;
