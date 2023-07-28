@@ -7,7 +7,12 @@ LanguageTextModel::LanguageTextModel(QObject *parent)
     : QAbstractTableModel{parent}
 {
     this->setLimit(10000);
-//    this->UpdateList();
+    //    this->UpdateList();
+}
+
+std::vector<Cafe::Language::TextItem> LanguageTextModel::list() const
+{
+    return mList;
 }
 
 } // namespace Language
