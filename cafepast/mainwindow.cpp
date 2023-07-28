@@ -15,7 +15,9 @@
 #include "adisyon/adisyonwidget.h"
 
 #include "cafecore/languageitem.h"
+
 #include "global/globalVar.h"
+#include "global/loginscreen.h"
 
 using Cafe::Language::LanguageTextManager;
 
@@ -23,10 +25,18 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    GlobarVar::LoginScreen* mLogin = new GlobarVar::LoginScreen();
+
+    mLogin->exec();
+
+    delete mLogin;
+
     ui->setupUi(this);
     Cafe::Language::LanguageTextManager::instance()->setDestinationShortLang(GlobarVar::LocalConfiguration::instance()->getCurrentLang().data());
 
-    this->setWindowTitle(QString(GlobarVar::LocalConfiguration::instance()->getCorpName().data())+" - " + QString(GlobarVar::LocalConfiguration::instance()->getCurrentLang().data()).toUpper());
+    this->setWindowTitle(QString(GlobarVar::LocalConfiguration::instance()->getCorpName().data())+" - " +
+                         QString(GlobarVar::LocalConfiguration::instance()->getCurrentLang().data()).toUpper()+ " - " +
+                         GlobarVar::GlobalDB::global()->currentUser()->getAdSoyad().c_str() + QString(" - Şube:") + GlobarVar::GlobalDB::global()->currentSube());
     this->initAction();
 
     this->initWidget();

@@ -2,6 +2,9 @@
 #include "mongocxx/client.hpp"
 #include <mutex>
 #include "../../url.h"
+#include "informationwidget.h"
+
+#include "cafecore/languageitem.h"
 
 #include <QDebug>
 
@@ -35,9 +38,33 @@ MongoCore::DB *GlobarVar::GlobalDB::DB()
 
 
 namespace GlobarVar {
-GlobalDB *GlobalDB::global() const
+GlobalDB *GlobalDB::global()
 {
+    std::call_once(flag1, [=](){
+        mGlobal = new GlobalDB();
+    });
     return mGlobal;
+}
+
+QString GlobalDB::currentSube() const
+{
+    return mCurrentSube;
+}
+
+void GlobalDB::setCurrentSube(const QString &newCurrentSube)
+{
+    mCurrentSube = newCurrentSube;
+}
+
+Cafe::User::UserItem *GlobalDB::currentUser() const
+{
+    return mCurrentUser;
+}
+
+void GlobalDB::setCurrentUser(Cafe::User::UserItem *newCurrentUser)
+{
+    mCurrentUser = new Cafe::User::UserItem();
+    mCurrentUser->setDocumentView(newCurrentUser->view());
 }
 
 
@@ -48,7 +75,11 @@ GlobarVar::LocalConfiguration* GlobarVar::LocalConfiguration::mLocalConfiguratio
 
 LocalConfiguration::LocalConfiguration()
 {
-    qDebug() << "Configuration Loaded: " << this->loadConfigurationFile();
+    if( this->loadConfigurationFile() ){
+        GlobarVar::InformationWidget::instance()->setInformation(TR("Bilgiler Yüklendi"));
+    }else{
+        GlobarVar::InformationWidget::instance()->setInformation(TR("Local Bilgiler Yüklenemedi"));
+    }
 }
 
 LocalConfiguration *LocalConfiguration::instance()
