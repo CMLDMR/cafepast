@@ -35,6 +35,7 @@ AdisyonWidget::AdisyonWidget(QWidget *parent)
 
 
     mAdisyonListWidget = new QWidget();
+//    mAdisyonListWidget->setMaximumWidth(250);
     mMainLayout->addWidget(mAdisyonListWidget);
 
     mAdisyonListLayout = new QVBoxLayout();
@@ -166,13 +167,13 @@ void AdisyonWidget::reduceUrun(const QString &urunOid)
 void AdisyonWidget::paintAdisyon()
 {
 
-        int heightPix = 200;
+    int heightPix = 230;
 
-        for( int i = 0 ; i < mAdisyonModel->rowCount() ; i++ ){
-            heightPix += 20;
-        }
+    for( int i = 0 ; i < mAdisyonModel->rowCount() ; i++ ){
+        heightPix += 20;
+    }
 
-        const int imgWidth = 350;
+    const int imgWidth = 350;
 
     if( mAdisyonPreviwImage ){
         delete mAdisyonPreviwImage;
@@ -191,11 +192,16 @@ void AdisyonWidget::paintAdisyon()
 //    painter.drawRect(10,10,330,50);
 
     painter.setFont(QFont("Tahoma",18));
-
-    painter.drawText(80,40,GlobarVar::LocalConfiguration::instance()->getCorpName().c_str());
+    auto titleWidth = painter.fontMetrics().boundingRect(GlobarVar::LocalConfiguration::instance()->getCorpName().c_str()).width();
+    painter.drawText((imgWidth-titleWidth)/2,40,GlobarVar::LocalConfiguration::instance()->getCorpName().c_str());
 
         painter.setFont(font);
     painter.drawText(20,75,QDate::currentDate().toString("dd/MM/yyyy"));
+
+        auto subetitleWidth = painter.fontMetrics().boundingRect(GlobarVar::LocalConfiguration::instance()->getCorpName().c_str()).width();
+
+    painter.drawText((imgWidth-subetitleWidth)/2,75,GlobarVar::GlobalDB::global()->currentSube());
+
         painter.drawText(300,75,QTime::currentTime().toString("hh:mm"));
 
 
@@ -226,10 +232,15 @@ void AdisyonWidget::paintAdisyon()
     painter.drawText(200,lastYPos,QString(TR("Toplam Tutar") + QString(" :") +QString::number(mTotalPrice)+ " " + mParaBirimiComboBox->currentText()));
 
 
-    lastYPos += 30;
+    lastYPos += 45;
     painter.setFont(QFont("Tahoma",13,-1,true));
     painter.drawText(75,lastYPos,QString(TR("Teşekkürler") + QString(" | ") +QString(GlobarVar::LocalConfiguration::instance()->getContactName().data())));
 
+
+    painter.setFont(QFont("Tahoma",8,-1,false));
+    auto kasiyertitleWidth = painter.fontMetrics().boundingRect(QString(TR("Kasiyer:"))+GlobarVar::GlobalDB::global()->currentUser()->getAdSoyad().c_str()).width();
+    lastYPos += 15;
+    painter.drawText((imgWidth-kasiyertitleWidth)/2,lastYPos,QString(TR("Kasiyer:"))+GlobarVar::GlobalDB::global()->currentUser()->getAdSoyad().c_str());
 
 
 
