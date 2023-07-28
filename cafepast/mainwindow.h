@@ -45,11 +45,18 @@ private:
     std::unique_ptr<QAction> mUrunManagerDialogAction;
     std::unique_ptr<QAction> mKategoriManagerList;
 
+    std::unique_ptr<QMenu> mRaporlarMenu;
+    std::unique_ptr<QAction> mGunlukRaporAction;
+    std::unique_ptr<QAction> mHaftalikRaporAction;
+    std::unique_ptr<QAction> mAylikRaporAction;
+
 
     std::unique_ptr<QMenu> mAyarlarMenu;
     std::unique_ptr<QAction> mParaBirimiAction;
     std::unique_ptr<QAction> mDilSecimiAction;
     std::unique_ptr<QAction> mTextManagerAction;
+    std::unique_ptr<QAction> mUserManagerAction;
+    std::unique_ptr<QAction> mSubeManagerAction;
 
     std::unique_ptr<QMenu> mOtherMenu;
     std::unique_ptr<QAction> mCorpNameAction;

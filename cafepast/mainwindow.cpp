@@ -9,6 +9,8 @@
 #include "dialogs/langDialog/languagetextbankdialog.h"
 #include "dialogs/urunDialog/urunmanagerdialog.h"
 #include "dialogs/otheroptionsdialog.h"
+#include "dialogs/subeDialog/subedialog.h"
+#include "dialogs/userDialog/usermanagerdialog.h"
 
 #include "adisyon/adisyonwidget.h"
 
@@ -61,6 +63,30 @@ void MainWindow::initAction()
     });
 
 
+    mRaporlarMenu = std::make_unique<QMenu>(TR("Raporlar"));
+    ui->menubar->addMenu(mRaporlarMenu.get());
+
+    mGunlukRaporAction = std::make_unique<QAction>(TR("Günlük Rapor"));
+    QObject::connect(mGunlukRaporAction.get(),&QAction::triggered,[=](const bool triggered){
+
+    });
+    mRaporlarMenu->addAction(mGunlukRaporAction.get());
+
+    mHaftalikRaporAction = std::make_unique<QAction>(TR("Haftalık Rapor"));
+    QObject::connect(mHaftalikRaporAction.get(),&QAction::triggered,[=](const bool triggered){
+
+    });
+    mRaporlarMenu->addAction(mHaftalikRaporAction.get());
+
+    mAylikRaporAction = std::make_unique<QAction>(TR("Aylık Rapor"));
+    QObject::connect(mAylikRaporAction.get(),&QAction::triggered,[=](const bool triggered){
+
+    });
+    mRaporlarMenu->addAction(mAylikRaporAction.get());
+
+
+
+
     mAyarlarMenu = std::make_unique<QMenu>(TR("Ayarlar"));
     ui->menubar->addMenu(mAyarlarMenu.get());
 
@@ -87,6 +113,24 @@ void MainWindow::initAction()
             delete mLanguageTextBankDialog;
         });
     mAyarlarMenu->addAction(mTextManagerAction.get());
+
+
+    mUserManagerAction = std::make_unique<QAction>(TR("Kullanıcılar"));
+    QObject::connect(mUserManagerAction.get(),&QAction::triggered,[=](const bool triggered){
+        auto mSubeDialog = new Cafe::User::UserManagerDialog();
+        mSubeDialog->exec();
+        delete mSubeDialog;
+    });
+    mAyarlarMenu->addAction(mUserManagerAction.get());
+
+
+    mSubeManagerAction = std::make_unique<QAction>(TR("Şubeler"));
+    QObject::connect(mSubeManagerAction.get(),&QAction::triggered,[=](const bool triggered){
+        auto mSubeDialog = new Cafe::Sube::SubeDialog();
+       mSubeDialog->exec();
+       delete mSubeDialog;
+    });
+    mAyarlarMenu->addAction(mSubeManagerAction.get());
 
 
     mOtherMenu = std::make_unique<QMenu>(TR("Diğer Ayarlar"));
