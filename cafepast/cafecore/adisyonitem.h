@@ -34,6 +34,8 @@ inline const std::string_view Collection{"Adisyon"};
 inline const std::string_view urunler{"urunler"};
 inline const std::string_view julianDate{"julianDate"};
 inline const std::string_view epochTime{"epochTime"};
+inline const std::string_view kasiyer{"kasiyer"};
+inline const std::string_view sube{"sube"};
 }
 
 class AdisyonListItem : public MongoCore::Item

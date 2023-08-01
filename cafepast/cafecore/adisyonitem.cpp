@@ -48,6 +48,9 @@ AdisyonListItem::AdisyonListItem()
 {
     this->append(Key::epochTime.data(),bsoncxx::types::b_int64{QDateTime::currentMSecsSinceEpoch()});
     this->append(Key::julianDate.data(),bsoncxx::types::b_int64{QDate::currentDate().toJulianDay()});
+    this->append(Key::sube.data(),GlobarVar::GlobalDB::global()->currentSube().toStdString());
+    this->append(Key::kasiyer.data(),GlobarVar::GlobalDB::global()->currentUser()->oid().value());
+
 }
 
 void AdisyonListItem::addAdisyon(const AdisyonItem &item)

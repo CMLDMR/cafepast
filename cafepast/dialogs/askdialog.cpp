@@ -15,7 +15,7 @@ namespace GlobarVar {
 
 
 
-AskDialog::AskDialog(const QString &mQuestionStr)
+AskDialog::AskDialog(const QString &mQuestionStr,Type type)
 {
 
     mMainLayout = new QVBoxLayout();
@@ -25,11 +25,18 @@ AskDialog::AskDialog(const QString &mQuestionStr)
     mMainLayout->addWidget(mQuestionLabel,0,Qt::AlignmentFlag::AlignCenter);
 
     mControllerLayout = new QHBoxLayout();
-    mAcceptButton = new QPushButton(TR("Evet"));
-    mControllerLayout->addWidget(mAcceptButton);
 
-    mRejectButton = new QPushButton(TR("Hayır"));
-    mControllerLayout->addWidget(mRejectButton);
+    if( type == Type::Question ){
+        mAcceptButton = new QPushButton(TR("Evet"));
+        mControllerLayout->addWidget(mAcceptButton);
+
+        mRejectButton = new QPushButton(TR("Hayır"));
+        mControllerLayout->addWidget(mRejectButton);
+    }else if(type == Type::Message){
+        mRejectButton = new QPushButton(TR("Tamam"));
+        mControllerLayout->addWidget(mRejectButton);
+    }
+
 
     mMainLayout->addLayout(mControllerLayout);
 
@@ -38,7 +45,7 @@ AskDialog::AskDialog(const QString &mQuestionStr)
 
 AskDialog *AskDialog::askQuestion(const QString &questionstr)
 {
-    auto mDialog = new AskDialog(questionstr);
+    auto mDialog = new AskDialog(questionstr,Type::Question);
 
     QObject::connect(mDialog->mRejectButton,&QPushButton::clicked,[=](){
         mDialog->mStatus = NO;
@@ -47,6 +54,20 @@ AskDialog *AskDialog::askQuestion(const QString &questionstr)
 
     QObject::connect(mDialog->mAcceptButton,&QPushButton::clicked,[=](){
         mDialog->mStatus = YES;
+        mDialog->close();
+    });
+
+    mDialog->exec();
+
+    return mDialog;
+}
+
+AskDialog *AskDialog::informationDialog(const QString &messageStr)
+{
+    auto mDialog = new AskDialog(messageStr,Type::Message);
+
+    QObject::connect(mDialog->mRejectButton,&QPushButton::clicked,[=](){
+        mDialog->mStatus = NO;
         mDialog->close();
     });
 

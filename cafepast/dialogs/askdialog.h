@@ -15,18 +15,32 @@ namespace GlobarVar {
 class AskDialog : public QDialog
 {
 
+
+
     Q_OBJECT
-    AskDialog(const QString &mQuestionStr);
+
 
 public:
-    virtual ~AskDialog(){}
-
     enum AcceptedButton{
         YES = 0,
         NO
     };
 
+    enum class Type{
+        Message,
+        Question
+    };
+
+private:
+    AskDialog(const QString &mQuestionStr,Type type);
+
+public:
+    virtual ~AskDialog(){}
+
+
+
     static AskDialog* askQuestion( const QString &questionstr );
+    static AskDialog* informationDialog( const QString &messageStr );
 
 
     AcceptedButton status() const;
