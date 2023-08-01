@@ -57,7 +57,7 @@ LanguageTextBankDialog::LanguageTextBankDialog()
     mDestLangLineEdit->setText(mCurrentLangComboBox->currentData(LanguageModel::shortName).toString());
     mDestLangTextEdit = new QLineEdit();
     mDestLangTextEdit->setPlaceholderText(TR("Çeviriyi Giriniz"));
-    mEkleBtn = new QPushButton(TR("Ekle+"));
+    mEkleBtn = new QPushButton(TR("Ekle"));
 
     mAddLayout->addWidget(mCurrentLangLineEdit);
     mAddLayout->addWidget(mDestLangLineEdit);
@@ -67,7 +67,7 @@ LanguageTextBankDialog::LanguageTextBankDialog()
 
     QObject::connect(mEkleBtn,&QPushButton::clicked,[=](){
 
-        if( mEkleBtn->text() == "Ekle" ){
+        if( mEkleBtn->text().contains("Ekle") ){
             Cafe::Language::TextItem item;
             item.setText(mCurrentLangLineEdit->text().toStdString(),
                          mDestLangLineEdit->text().toStdString(),
@@ -98,8 +98,6 @@ LanguageTextBankDialog::LanguageTextBankDialog()
                 GlobarVar::InformationWidget::instance()->setInformation(TR("Kayıt Güncellenemedi"));
             }
         }
-
-
     });
 
 
