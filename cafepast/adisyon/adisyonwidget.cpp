@@ -330,6 +330,10 @@ void AdisyonWidget::removeUrun()
 
 void AdisyonWidget::printReceipt()
 {
+    if( mAdisyonModel->rowCount() <= 0 ){
+            GlobarVar::AskDialog::informationDialog(TR("Ürün Seçmediniz"));
+            return;
+    }
 
     const int yPos = 35;
 
