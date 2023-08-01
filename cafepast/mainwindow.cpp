@@ -11,6 +11,8 @@
 #include "dialogs/otheroptionsdialog.h"
 #include "dialogs/subeDialog/subedialog.h"
 #include "dialogs/userDialog/usermanagerdialog.h"
+#include "dialogs/raporDialog/rapordialog.h"
+
 
 #include "adisyon/adisyonwidget.h"
 
@@ -76,23 +78,27 @@ void MainWindow::initAction()
     mRaporlarMenu = std::make_unique<QMenu>(TR("Raporlar"));
     ui->menubar->addMenu(mRaporlarMenu.get());
 
-    mGunlukRaporAction = std::make_unique<QAction>(TR("Günlük Rapor"));
+    mGunlukRaporAction = std::make_unique<QAction>(TR("Rapor"));
     QObject::connect(mGunlukRaporAction.get(),&QAction::triggered,[=](const bool triggered){
+
+        auto mRaporManager = new Cafe::Rapor::RaporDialog();
+        mRaporManager->exec();
+        delete mRaporManager;
 
     });
     mRaporlarMenu->addAction(mGunlukRaporAction.get());
 
-    mHaftalikRaporAction = std::make_unique<QAction>(TR("Haftalık Rapor"));
-    QObject::connect(mHaftalikRaporAction.get(),&QAction::triggered,[=](const bool triggered){
+//    mHaftalikRaporAction = std::make_unique<QAction>(TR("Haftalık Rapor"));
+//    QObject::connect(mHaftalikRaporAction.get(),&QAction::triggered,[=](const bool triggered){
 
-    });
-    mRaporlarMenu->addAction(mHaftalikRaporAction.get());
+//    });
+//    mRaporlarMenu->addAction(mHaftalikRaporAction.get());
 
-    mAylikRaporAction = std::make_unique<QAction>(TR("Aylık Rapor"));
-    QObject::connect(mAylikRaporAction.get(),&QAction::triggered,[=](const bool triggered){
+//    mAylikRaporAction = std::make_unique<QAction>(TR("Aylık Rapor"));
+//    QObject::connect(mAylikRaporAction.get(),&QAction::triggered,[=](const bool triggered){
 
-    });
-    mRaporlarMenu->addAction(mAylikRaporAction.get());
+//    });
+//    mRaporlarMenu->addAction(mAylikRaporAction.get());
 
 
 
